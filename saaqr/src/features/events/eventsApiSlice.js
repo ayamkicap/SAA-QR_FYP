@@ -15,7 +15,6 @@ export const eventsApiSlice = apiSlice.injectEndpoints({
             validateStatus: (response, result) => {
                 return response.status === 200 && !result.isError
             },
-            keepUnusedDataFor: 5,
             transformResponse: responseData => {
                 const loadedEvents = responseData.map(event => {
                     event.id = event._id
@@ -32,11 +31,48 @@ export const eventsApiSlice = apiSlice.injectEndpoints({
                 } else return [{ type: 'Event', id: 'LIST' }]
             }
         }),
+        addNewEvent: builder.mutation({
+            query: initialEvent => ({
+                url: '/events',
+                method: 'POST',
+                body: {
+                    ...initialEvent,
+                }
+            }),
+            invalidatesTags: [
+                { type: 'Event', id: "LIST" }
+            ]
+        }),
+        updateEvent: builder.mutation({
+            query: initialEvent => ({
+                url: '/events',
+                method: 'PATCH',
+                body: {
+                    ...initialEvent,
+                }
+            }),
+            invalidatesTags: (result, error, arg) => [
+                { type: 'Event', id: arg.id }
+            ]
+        }),
+        deleteEvent: builder.mutation({
+            query: ({ id }) => ({
+                url: `/events`,
+                method: 'DELETE',
+                body: { id }
+            }),
+            invalidatesTags: (result, error, arg) => [
+                { type: 'Event', id: arg.id }
+            ]
+        }),
     }),
 })
 
 export const {
     useGetEventsQuery,
+    useAddNewEventMutation,
+    useUpdateEventMutation,
+    useDeleteEventMutation,
 } = eventsApiSlice
 
 // returns the query result object

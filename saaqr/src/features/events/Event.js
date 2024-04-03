@@ -14,9 +14,9 @@ const Event = ({ eventId }) => {
     const navigate = useNavigate()
 
     if (event) {
-        const created = new Date(event.createdAt).toLocaleString('en-US', { day: 'numeric', month: 'long' })
+        const created = new Date(event.createdAt).toLocaleString('en-MY', { day: 'numeric', month: 'long' })
 
-        const updated = new Date(event.updatedAt).toLocaleString('en-US', { day: 'numeric', month: 'long' })
+        const updated = new Date(event.updatedAt).toLocaleString('en-MY', { day: 'numeric', month: 'long' })
 
         const handleEdit = () => navigate(`/dash/events/${eventId}`)
 

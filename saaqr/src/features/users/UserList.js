@@ -10,7 +10,11 @@ import Paper from '@mui/material/Paper';
 
 const UsersList = () => {
   const { data: users, isLoading, isSuccess, isError, error } =
-    useGetUsersQuery();
+    useGetUsersQuery('userList', {
+      pollingInterval: 60000,
+      refetchOnFocus: true,
+      refetchOnMountOrArgChange: true
+  });
 
   let content;
 
@@ -23,9 +27,7 @@ const UsersList = () => {
   if (isSuccess) {
     const { ids } = users
 
-    const tableContent = ids?.length
-    ? ids.map(userId => <User key={userId} userId={userId} />)
-    : null
+    const tableContent = ids?.length && ids.map(userId => <User key={userId} userId={userId} />)
 
     content = (
         // <table className="table table--users">

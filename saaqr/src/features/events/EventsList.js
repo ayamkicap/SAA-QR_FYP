@@ -1,5 +1,6 @@
 import { useGetEventsQuery } from "./eventsApiSlice"
 import Event from "./Event"
+import useAuth from "../../hooks/useAuth";
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,13 +10,19 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 const EventsList = () => {
+
+    const { username, isDeveloper, isAdmin } = useAuth()
     const {
         data: events,
         isLoading,
         isSuccess,
         isError,
         error
-    } = useGetEventsQuery()
+    } = useGetEventsQuery('eventList', {
+        pollingInterval: 15000,
+        refetchOnFocus: true,
+        refetchOnMountOrArgChange: true
+    })
 
     let content
 
@@ -26,11 +33,16 @@ const EventsList = () => {
     }
 
     if (isSuccess) {
-        const { ids } = events
+        const { ids, entities } = events
 
-        const tableContent = ids?.length
-            ? ids.map(eventId => <Event key={eventId} eventId={eventId} />)
-            : null
+        let filteredIds
+        if (isDeveloper || isAdmin) {
+            filteredIds = [...ids]
+        } else {
+            filteredIds = ids.filter(eventId => entities[eventId].username === username)
+        }
+
+        const tableContent = ids?.length && filteredIds.map(eventId => <Event key={eventId} eventId={eventId} />)
 
         content = (
             <TableContainer component={Paper}>
