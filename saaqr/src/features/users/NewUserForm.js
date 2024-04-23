@@ -5,62 +5,67 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { ROLES } from "../../config/roles";
 
-const USERNAME_REGEX = /^[A-z]{3,20}$/;
-const PASSWORD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
+const USER_REGEX = /^[A-z]{3,20}$/;
+const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
+const CARD_NUMBER_REGEX = /^[0-9]{6,10}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const YEAR_STUDY_REGEX = /^[0-9]{1,2}$/;
 
 const NewUserForm = () => {
-
-  const [addNewUser, {
-        isLoading,
-        isSuccess,
-        isError,
-        error
-    }] = useAddNewUserMutation()
+  const [addNewUser, { isLoading, isSuccess, isError, error }] =
+    useAddNewUserMutation();
 
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [validUsername, setValidUsername] = useState(false);
-  const [email, setEmail] = useState("");
-  const [validEmail, setValidEmail] = useState(false);
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [validEmail, setValidEmail] = useState(false);
   const [cardNumber, setCardNumber] = useState("");
-  const [yearStudy, setYearStudy] = useState("");
-  const [active, setActive] = useState(true);
+  const [validCardNumber, setValidCardNumber] = useState(false);
   const [roles, setRoles] = useState(["Student"]);
+  const [yearStudy, setYearStudy] = useState("");
+  const [validYearStudy, setValidYearStudy] = useState(false);
+  const [active, setActive] = useState(true);
 
   useEffect(() => {
-    setValidUsername(USERNAME_REGEX.test(username));
+    setValidUsername(USER_REGEX.test(username));
   }, [username]);
+
+  useEffect(() => {
+    setValidPassword(PWD_REGEX.test(password));
+  }, [password]);
 
   useEffect(() => {
     setValidEmail(EMAIL_REGEX.test(email));
   }, [email]);
 
   useEffect(() => {
-    setValidPassword(PASSWORD_REGEX.test(password));
-  }, [password]);
+    setValidCardNumber(CARD_NUMBER_REGEX.test(cardNumber));
+  }, [cardNumber]);
+
+  useEffect(() => {
+    setValidYearStudy(YEAR_STUDY_REGEX.test(yearStudy));
+  }, [yearStudy]);
 
   useEffect(() => {
     if (isSuccess) {
-        setUsername('');
-        setEmail('');
-        setPassword('');
-        setCardNumber('');
-        setYearStudy('');
-        setRoles([]);
-        setActive(true);
-        navigate('/dash/users');
+      setUsername("");
+      setPassword("");
+      setEmail("");
+      setCardNumber("");
+      setRoles(["Student"]);
+      setYearStudy("");
+      setActive(true);
+      navigate("/dash/users");
     }
-}, [isSuccess, navigate]);
-
-
+  }, [isSuccess, navigate]);
 
   const onUsernameChanged = (e) => setUsername(e.target.value);
-  const onEmailChanged = (e) => setEmail(e.target.value);
   const onPasswordChanged = (e) => setPassword(e.target.value);
+  const onEmailChanged = (e) => setEmail(e.target.value);
   const onCardNumberChanged = (e) => setCardNumber(e.target.value);
   const onYearStudyChanged = (e) => setYearStudy(e.target.value);
   const onActiveChanged = (e) => setActive(e.target.checked);
@@ -76,60 +81,78 @@ const NewUserForm = () => {
   const canSave =
     [
       validUsername,
-      validEmail,
       validPassword,
-      cardNumber.length > 0,
-      yearStudy.length > 0,
+      validEmail,
+      validCardNumber,
+      roles.length > 0,
+      validYearStudy,
     ].every(Boolean) && !isLoading;
 
   const onSaveUserClicked = async (e) => {
+    console.log("Save button clicked");
     e.preventDefault();
+    console.log("Saving user with the following data:");
+    console.log("Username:", username);
+    console.log("Password:", password);
+    console.log("Email:", email);
+    console.log("Card Number:", cardNumber);
+    console.log("Roles:", roles);
+    console.log("Year of Study:", yearStudy);
+    console.log("Active:", active);
     if (canSave) {
       await addNewUser({
         username,
-        email,
         password,
+        email,
         card_number: cardNumber,
         roles,
         year_study: yearStudy,
         active,
       });
+    } else {
+      console.log("Cannot save the user. Please fill in all required fields.");
+      // You can also provide visual feedback to the user here, like displaying an error message.
     }
   };
 
-  const options = Object.values(ROLES).map((role) => (
-    <option key={role} value={role}>
-      {role}
-    </option>
-  ));
+  const options = Object.values(ROLES).map((role) => {
+    return (
+      <option key={role} value={role}>
+        {" "}
+        {role}
+      </option>
+    );
+  });
 
   const errClass = isError ? "errmsg" : "offscreen";
   const validUserClass = !validUsername ? "form__input--incomplete" : "";
-  const validEmailClass = !validEmail ? "form__input--incomplete" : "";
   const validPwdClass = !validPassword ? "form__input--incomplete" : "";
-  const validRolesClass = !Boolean(roles.length) ? 'form__input--incomplete' : ''
-  const validCardClass = cardNumber.length === 0 ? "form__input--incomplete" : "";
-  const validYearClass = yearStudy.length === 0 ? "form__input--incomplete" : "";
+  const validEmailClass = !validEmail ? "form__input--incomplete" : "";
+  const validCardNumberClass = !validCardNumber
+    ? "form__input--incomplete"
+    : "";
+  const validRolesClass = roles.length === 0 ? "form__input--incomplete" : "";
+  const validYearStudyClass = !validYearStudy ? "form__input--incomplete" : "";
 
   const content = (
     <>
       <p className={errClass}>{error?.data?.message}</p>
 
       <form className="form" onSubmit={onSaveUserClicked}>
+        <button
+          title="Save"
+          type="submit"
+          //disabled={!canSave}
+          onClick={onSaveUserClicked}
+        >
+          Save
+        </button>
         <div className="form__title-row">
           <h2>New User</h2>
-          <div className="form__action-buttons">
-            <button
-              className="icon-button"
-              title="Save"
-              disabled={!canSave}
-            >
-              <FontAwesomeIcon icon={faSave} />
-            </button>
-          </div>
+          <div className="form__action-buttons"></div>
         </div>
         <label className="form__label" htmlFor="username">
-          Username: <span className="nowrap">[3-20 letters]</span>
+          Name: <span className="nowrap">[3-20 letters]</span>
         </label>
         <input
           className={`form__input ${validUserClass}`}
@@ -139,18 +162,6 @@ const NewUserForm = () => {
           autoComplete="off"
           value={username}
           onChange={onUsernameChanged}
-        />
-
-        <label className="form__label" htmlFor="email">
-          Email:
-        </label>
-        <input
-          className={`form__input ${validEmailClass}`}
-          id="email"
-          name="email"
-          type="email"
-          value={email}
-          onChange={onEmailChanged}
         />
 
         <label className="form__label" htmlFor="password">
@@ -165,26 +176,41 @@ const NewUserForm = () => {
           onChange={onPasswordChanged}
         />
 
+        <label className="form__label" htmlFor="email">
+          Email:
+        </label>
+        <input
+          className={`form__input ${validEmailClass}`}
+          id="email"
+          name="email"
+          type="email"
+          autoComplete="off"
+          value={email}
+          onChange={onEmailChanged}
+        />
+
         <label className="form__label" htmlFor="cardNumber">
           Card Number:
         </label>
         <input
-          className={`form__input ${validCardClass}`}
+          className={`form__input ${validCardNumberClass}`}
           id="cardNumber"
           name="cardNumber"
           type="text"
+          autoComplete="off"
           value={cardNumber}
           onChange={onCardNumberChanged}
         />
 
-        <label className="form__label" htmlFor="yearStudy">
-          Year of Study:
+        <label className="form__label" htmlFor="cardNumber">
+          Year Study:
         </label>
         <input
-          className={`form__input ${validYearClass}`}
+          className={`form__input ${validYearStudyClass}`}
           id="yearStudy"
-          name="yearStudy"
+          name="cardNumber"
           type="text"
+          autoComplete="off"
           value={yearStudy}
           onChange={onYearStudyChanged}
         />
@@ -197,23 +223,12 @@ const NewUserForm = () => {
           name="roles"
           className={`form__select ${validRolesClass}`}
           multiple={true}
-          size="4"
+          size="3"
           value={roles}
           onChange={onRolesChanged}
         >
           {options}
         </select>
-
-        <label className="form__label" htmlFor="active">
-          Active:
-        </label>
-        <input
-          id="active"
-          name="active"
-          type="checkbox"
-          checked={active}
-          onChange={onActiveChanged}
-        />
       </form>
     </>
   );

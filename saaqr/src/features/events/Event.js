@@ -30,16 +30,19 @@ const Event = ({ eventId }) => {
                 </TableCell>
                 <TableCell className="table__cell note__created">{created}</TableCell>
                 <TableCell className="table__cell note__updated">{updated}</TableCell>
-                <TableCell className="table__cell event__created">{event.date_event}</TableCell>
                 <TableCell className="table__cell event__updated">{event.update}</TableCell>
                 <TableCell className="table__cell event__title">{event.title}</TableCell>
-                <TableCell className="table__cell event__username">{event.user}</TableCell>
                 <TableCell className="table__cell">{event.text}</TableCell>
+                <TableCell className="table__cell">{event.date_event}</TableCell>
                 <TableCell className="table__cell">{event.time_event}</TableCell>
                 <TableCell className="table__cell">{event.location_event}</TableCell>
                 <TableCell className="table__cell">{event.price_event}</TableCell>
                 <TableCell className="table__cell">{event.contact_event}</TableCell>
-                <TableCell className="table__cell">{event.img_url_event}</TableCell>
+                <TableCell className="table__th event__Image">
+                    <img src={'http://localhost:3500/'+event.img_url_event} alt="Event Thumbnail" style={{ maxWidth: '100px', maxHeight: '100px' }} />
+                    {/* <img src={'http://localhost:3500/'+event.img_url_event} alt="Event Thumbnail" /> */}
+
+                </TableCell>
                 <TableCell className="table__cell">{event.QR_code}</TableCell>
                 <TableCell className="table__cell">
                     <button
@@ -50,6 +53,7 @@ const Event = ({ eventId }) => {
                     </button>
                 </TableCell>
             </TableRow>
+
 
         )
 

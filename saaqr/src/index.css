@@ -1,9 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 /* || VARIABLES */
@@ -76,6 +78,18 @@ body {
   background-blend-mode: multiply;
 }
 
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+
 
 input,
 button,
@@ -120,10 +134,11 @@ a:focus-visible {
 
 .public__main,
 .login {
-  flex-grow: 1;
-  border-top: 2px solid var(--BORDER-COLOR);
-  border-bottom: 2px solid var(--BORDER-COLOR);
-  padding: 1em 0;
+  display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically center */
+    align-items: center; /* Horizontally center */
+    height: 100vh; /* Adjust height as needed */
 }
 
 .public__addr {
@@ -416,3 +431,41 @@ tr {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+.sidebar {
+  display: flex;
+  height: 100%;
+}
+
+.links {
+  width: 300px; /* Adjust width as needed */
+  padding: 20px; /* Adjust padding as needed */
+  background-color: #e0e0e0; /* Add background color */
+}
+
+.welcome {
+  flex: 1; /* Take up remaining space */
+  padding: 20px; /* Adjust padding as needed */
+  background-color: #f0f0f000; /* Add background color */
+}
+
+.links p {
+  margin-bottom: 30px; /* Add spacing between links */
+}
+
+/* Optional: Style links */
+.links a {
+  text-decoration: none;
+  color: #333;
+  font-size: 25px;
+  transition: color 0.3s ease;
+}
+
+.links a:hover {
+  color: #2f93cc;
+}
+
+.welcome p {
+  font-size: 30px; /* Custom font size */
+}
+

@@ -7,7 +7,7 @@ import useAuth from "../../hooks/useAuth";
 
 const EditEventForm = ({ event, users }) => {
 
-    const { isDeveloper, isAdmin} = useAuth()
+    const { isDeveloper, isAdmin, username} = useAuth()
 
     const [updateEvent, {
         isLoading,
@@ -66,7 +66,18 @@ const EditEventForm = ({ event, users }) => {
     const onLocationEventChanged = e => setLocationEvent(e.target.value);
     const onPriceEventChanged = e => setPriceEvent(parseFloat(e.target.value));
     const onContactEventChanged = e => setContactEvent(e.target.value);
-    const onImgUrlEventChanged = e => setImgUrlEvent(e.target.value);
+    //const onImgUrlEventChanged = e => setImgUrlEvent(e.target.value);
+    const onImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Convert the file to a data URL
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setImgUrlEvent(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
     const onQrCodeChanged = e => setQrCode(e.target.value);
 
     const canSave = [title, text, update, userId, dateEvent, timeEvent, locationEvent, priceEvent, contactEvent, imgUrlEvent, qrCode].every(Boolean) && !isLoading;
@@ -155,7 +166,7 @@ const EditEventForm = ({ event, users }) => {
                 />
                 <div className="form__row">
                     <div className="form__divider">
-                        <label className="form__label" htmlFor="event-update">
+                        {/* <label className="form__label" htmlFor="event-update">
                             Update:</label>
                         <input
                             className={`form__input`}
@@ -165,7 +176,24 @@ const EditEventForm = ({ event, users }) => {
                             autoComplete="off"
                             value={update}
                             onChange={onUpdateChanged}
-                        />
+                        /> */}
+
+                        <label className="form__label" htmlFor="update">
+                    Update:
+                </label>
+                <select
+                    className={`form__select`}
+                    id="update"
+                    name="update"
+                    value={update}
+                    onChange={onUpdateChanged}
+                >
+                    <option value="PENDING">PENDING</option>
+                    <option value="COMPLETE">ACCEPT</option>
+                    <option value="REJECT">REJECT</option>
+                </select>
+
+
 
                         <label className="form__label form__checkbox-container" htmlFor="event-completed">
                             WORK COMPLETE:
@@ -236,7 +264,7 @@ const EditEventForm = ({ event, users }) => {
                             onChange={onContactEventChanged}
                         />
 
-                        <label className="form__label" htmlFor="event-img-url-event">
+                        {/* <label className="form__label" htmlFor="event-img-url-event">
                             Image URL Event:</label>
                         <input
                             className={`form__input`}
@@ -246,6 +274,16 @@ const EditEventForm = ({ event, users }) => {
                             autoComplete="off"
                             value={imgUrlEvent}
                             onChange={onImgUrlEventChanged}
+                        /> */}
+
+                        <label className="form__label" htmlFor="img_file">
+                            Upload Image:</label>
+                        <input
+                            className={`form__input`}
+                            id="img_file"
+                            name="img_file"
+                            type="file"
+                            onChange={onImageUpload}
                         />
 
                         <label className="form__label" htmlFor="event-QR-code">
@@ -260,17 +298,19 @@ const EditEventForm = ({ event, users }) => {
                             onChange={onQrCodeChanged}
                         />
 
-                        <label className="form__label form__checkbox-container" htmlFor="event-username">
-                            ASSIGNED TO:</label>
+                        <label className="form__label form__checkbox-container" htmlFor="username">
+                            NAME:
+                        </label>
                         <select
-                            id="event-username"
+                            id="username"
                             name="username"
-                            className="form__select"
-                            value={userId}
+                            className="form__select visually-hidden" // Add a class for hiding
+                            value={username}
                             onChange={onUserIdChanged}
                         >
                             {options}
                         </select>
+
                     </div>
                     <div className="form__divider">
                         <p className="form__created">Created:<br />{created}</p>

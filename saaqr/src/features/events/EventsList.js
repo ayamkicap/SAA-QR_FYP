@@ -49,14 +49,13 @@ const EventsList = () => {
                 <Table sx={{ minWidth: 650 }} aria-label="simple table">
                     <TableHead>
                         <TableRow>
-                            <TableCell className="table__th event__status">created</TableCell>
-                            <TableCell className="table__th event__status">Updated</TableCell>
-                            <TableCell className="table__th event__status">User</TableCell>
-                            <TableCell className="table__th event__created">Title</TableCell>
-                            <TableCell className="table__th event__updated">Text</TableCell>
-                            <TableCell className="table__th event__title">Update</TableCell>
-                            <TableCell className="table__th event__username">Completed</TableCell>
-                            <TableCell className="table__th event__Date">Date Event</TableCell>
+                            <TableCell className="table__th event__status">STATUS</TableCell>
+                            <TableCell className="table__th event__status">CREATED DATE</TableCell>
+                            <TableCell className="table__th event__status">UPDATE DATE</TableCell>
+                            <TableCell className="table__th event__updated">UPDATE</TableCell>
+                            <TableCell className="table__th event__title">TITLE</TableCell>
+                            <TableCell className="table__th event__Date">TEXT</TableCell>
+                            <TableCell className="table__th event__Time">Date Event</TableCell>
                             <TableCell className="table__th event__Time">Time Event</TableCell>
                             <TableCell className="table__th event__Location">Location Event</TableCell>
                             <TableCell className="table__th event__PRice">Price Event</TableCell>

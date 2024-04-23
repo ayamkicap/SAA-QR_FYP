@@ -61,7 +61,7 @@ const UsersList = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell >Username</TableCell>
+              <TableCell >Name</TableCell>
               <TableCell >Email</TableCell>
               <TableCell >Card Number</TableCell>
               <TableCell >Roles</TableCell>

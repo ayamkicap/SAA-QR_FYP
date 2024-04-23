@@ -90,7 +90,7 @@ const DashHeader = () => {
         eventsButton = (
             <button
                 className="icon-button"
-                title="Events"
+                title="SAA-QR"
                 onClick={onEventsClicked}
             >
                 <FontAwesomeIcon icon={faFilePen} />
@@ -132,7 +132,7 @@ const DashHeader = () => {
             <header className="dash-header">
                 <div className={`dash-header__container ${dashClass}`}>
                     <Link to="/dash">
-                        <h1 className="dash-header__title">techEvents</h1>
+                        <h1 className="dash-header__title">SAA-QR</h1>
                     </Link>
                     <nav className="dash-header__nav">
                         {buttonContent}

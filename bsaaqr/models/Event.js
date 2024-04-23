@@ -38,14 +38,14 @@ const eventSchema = new mongoose.Schema(
         },
         price_event: {
             type: Number,
-            required: true
+            required: false
         },
         contact_event: {
             type: String,
             required: true
         },
         img_url_event: {
-            type: String,
+            type: String, // Store the URL or path to the uploaded image
             required: true
         },
         QR_code: {

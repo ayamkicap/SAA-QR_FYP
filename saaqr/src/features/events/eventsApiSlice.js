@@ -20,6 +20,7 @@ export const eventsApiSlice = apiSlice.injectEndpoints({
                     event.id = event._id
                     return event
                 });
+                console.log("Loaded Events:", loadedEvents);
                 return eventsAdapter.setAll(initialState, loadedEvents)
             },
             providesTags: (result, error, arg) => {
@@ -32,13 +33,15 @@ export const eventsApiSlice = apiSlice.injectEndpoints({
             }
         }),
         addNewEvent: builder.mutation({
-            query: initialEvent => ({
-                url: '/events',
-                method: 'POST',
-                body: {
-                    ...initialEvent,
+            query: initialEvent => {
+                return {
+                    url: '/events',
+                    method: 'POST',
+                    body: {
+                        ...initialEvent,
+                    }
                 }
-            }),
+            },
             invalidatesTags: [
                 { type: 'Event', id: "LIST" }
             ]
