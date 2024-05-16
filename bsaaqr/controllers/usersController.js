@@ -22,10 +22,10 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // @route POST /users
 // @access Private
 const createNewUser = asyncHandler(async (req, res) => {
-    const { username, email, password, card_number, roles, year_study } = req.body;
+    const { username, email, password, card_number, roles, year_study,active,events } = req.body;
 
     // Confirm data
-    if (!username || !email || !password || !card_number || !year_study || !Array.isArray(roles) || !roles.length) {
+    if (!username || !email || !password || !card_number || !year_study || !Array.isArray(roles) || !roles.length || !active || !Array.isArray(events) || !events.length) {
         return res.status(400).json({ message: 'All fields are required' });
     }
 
@@ -51,6 +51,9 @@ const createNewUser = asyncHandler(async (req, res) => {
         card_number,
         roles,
         year_study,
+        active,
+        events,
+
     };
 
     // Create and store new user
@@ -67,7 +70,7 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @route PATCH /users
 // @access Private
 const updateUser = asyncHandler(async (req, res) => {
-    const { id, username, email, roles, active, password, card_number, year_study } = req.body;
+    const { id, username, email, roles, active, password, card_number, year_study, events } = req.body;
 
     // Confirm data 
     if (!id || !username || !email || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean') {
@@ -81,13 +84,16 @@ const updateUser = asyncHandler(async (req, res) => {
         return res.status(400).json({ message: 'User not found' });
     }
 
-    // Check for duplicate username or email
-    const duplicateUsername = await User.findOne({ username }).lean().exec();
-    const duplicateEmail = await User.findOne({ email }).lean().exec();
+    // Check for duplicate username or email, excluding the current user
+    const duplicateUsername = await User.findOne({ username, _id: { $ne: id } }).lean().exec();
+    const duplicateEmail = await User.findOne({ email, _id: { $ne: id } }).lean().exec();
 
-    // Allow updates to the original user 
-    if ((duplicateUsername && duplicateUsername._id.toString() !== id) || (duplicateEmail && duplicateEmail._id.toString() !== id)) {
-        return res.status(409).json({ message: 'Duplicate username or email' });
+    if (duplicateUsername) {
+        return res.status(409).json({ message: 'Duplicate username' });
+    }
+
+    if (duplicateEmail) {
+        return res.status(409).json({ message: 'Duplicate email' });
     }
 
     user.username = username;
@@ -96,6 +102,7 @@ const updateUser = asyncHandler(async (req, res) => {
     user.active = active;
     user.card_number = card_number;
     user.year_study = year_study;
+    user.events = events;
 
     if (password) {
         // Hash password 
@@ -106,6 +113,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
     res.json({ message: `${updatedUser.username} updated` });
 });
+
 
 
 // @desc Delete a user

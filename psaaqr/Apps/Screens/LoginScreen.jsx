@@ -13,6 +13,7 @@ export default function LoginScreen({ onLoginSuccess }) {
         console.log('Login successful:', response.data);
         if (response.data && response.data.accessToken) {
           const accessToken = response.data.accessToken;
+          
           // Call the prop function passed from App component
           onLoginSuccess(accessToken);
         } else {
@@ -25,6 +26,8 @@ export default function LoginScreen({ onLoginSuccess }) {
         setError(error.response?.data?.message || 'An error occurred during login');
       });
   };
+
+
   
   
   

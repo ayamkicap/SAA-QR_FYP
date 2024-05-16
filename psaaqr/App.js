@@ -5,16 +5,24 @@ import LoginScreen from './Apps/Screens/LoginScreen';
 import TabNavigation from './Apps/Navigations/TabNavigation';
 import { NavigationContainer } from '@react-navigation/native';
 import TabNavigationTop from './Apps/Navigations/TabNAvigationTop';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [accessToken, setAccessToken] = useState('');
 
-  const handleLoginSuccess = (accessToken) => {
+  const handleLoginSuccess = async (accessToken) => {
     // Update the app state or perform any other actions after successful login
     console.log('Login successful. Access token:', accessToken);
+
+    await AsyncStorage.setItem('token', accessToken)
+  .then(() => {
     setIsLoggedIn(true); // Set isLoggedIn state to true
     setAccessToken(accessToken); // Store the access token
+  })
+  .catch(error => console.error('Error setting token:', error));
+
+    
   };
   
 

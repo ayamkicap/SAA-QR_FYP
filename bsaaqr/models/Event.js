@@ -51,7 +51,11 @@ const eventSchema = new mongoose.Schema(
         QR_code: {
             type: String,
             required: true
-        }
+        },
+        user_join: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Event'
+        }]
     },
     {
         timestamps: true

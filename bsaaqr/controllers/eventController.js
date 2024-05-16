@@ -31,7 +31,7 @@ const getAllEvents = asyncHandler(async (req, res) => {
 // @route POST /events
 // @access Private
 const createNewEvent = asyncHandler(async (req, res) => {
-    const { user, title, text, update, completed, date_event, time_event, location_event, price_event, contact_event, QR_code } = req.body;
+    const { user, title, text, update, completed, date_event, time_event, location_event, price_event, contact_event, QR_code,user_join } = req.body;
     const img_url_event = req.file.filename ? req.file.path.replace(/\\/g, '/') : 'dsf'; // Save the path to the uploaded image
 
     console.log(img_url_event)
@@ -67,6 +67,7 @@ const createNewEvent = asyncHandler(async (req, res) => {
     console.log("contact_event:", contact_event);
     console.log("QR_code:", QR_code);
     console.log("img_url_event:", img_url_event);
+    console.log("user_join:", user_join);
 
     // // Confirm data
     // if (!user || !title || !text || !update || typeof completed !== 'boolean' || !date_event || !time_event || !location_event || !price_event || !contact_event || !QR_code || !img_url_event) {
@@ -77,9 +78,9 @@ const createNewEvent = asyncHandler(async (req, res) => {
     // Check for duplicate title
     const duplicate = await Event.findOne({ title }).lean().exec();
 
-    if (duplicate) {
-        return res.status(409).json({ message: 'Duplicate event title' });
-    }
+    // if (duplicate) {
+    //     return res.status(409).json({ message: 'Duplicate event title' });
+    // }
 
     // Create and store the new event
     const event = await Event.create({
@@ -94,7 +95,8 @@ const createNewEvent = asyncHandler(async (req, res) => {
         price_event,
         contact_event,
         img_url_event,
-        QR_code
+        QR_code,
+        user_join
     });
 
     if (event) { // Created
@@ -109,7 +111,7 @@ const createNewEvent = asyncHandler(async (req, res) => {
 // @route PATCH /events
 // @access Private
 const updateEvent = asyncHandler(async (req, res) => {
-    const { id, user, title, text, update, completed, date_event, time_event, location_event, price_event, contact_event, QR_code } = req.body;
+    const { id, user, title, text, update, completed, date_event, time_event, location_event, price_event, contact_event, QR_code,user_join } = req.body;
 
     // Confirm data
     if (!id || !user || !title || !text || !update || typeof completed !== 'boolean' || !date_event || !time_event || !location_event || !price_event || !contact_event || !QR_code) {
@@ -146,6 +148,7 @@ const updateEvent = asyncHandler(async (req, res) => {
     event.contact_event = contact_event;
     event.img_url_event = img_url_event;
     event.QR_code = QR_code;
+    event.user_join = user_join;
 
     const updatedEvent = await event.save();
 
