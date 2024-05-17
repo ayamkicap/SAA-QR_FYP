@@ -1,5 +1,4 @@
-import { View, Text } from 'react-native'
-import { ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator, TouchableOpacity, StyleSheet } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -22,8 +21,16 @@ export default function HomeScreen() {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <View style={styles.centered}>
         <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <Text>Error: {error.message}</Text>
       </View>
     );
   }
@@ -31,10 +38,13 @@ export default function HomeScreen() {
   return (
     <ScrollView style={{ flex: 1 }}>
       {events.map(event => (
-        <View key={event._id} style={{ marginVertical: 10, marginHorizontal: 20, padding: 10, borderWidth: 1, borderColor: '#ccc' }}>
+        <View key={event._id} style={styles.eventContainer}>
           <Text>Title: {event.title}</Text>
           <Text>Text: {event.text}</Text>
           <Text>Update: {event.update}</Text>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Button</Text>
+          </TouchableOpacity>
           {/* Display other event properties here */}
         </View>
       ))}
@@ -42,8 +52,29 @@ export default function HomeScreen() {
   );
 }
 
-
-
-
-
-
+const styles = StyleSheet.create({
+  centered: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  eventContainer: {
+    marginVertical: 10,
+    marginHorizontal: 20,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+  },
+  button: {
+    backgroundColor: '#0000ff',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontWeight: 'bold',
+  },
+});

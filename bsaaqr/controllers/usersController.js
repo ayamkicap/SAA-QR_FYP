@@ -96,13 +96,14 @@ const updateUser = asyncHandler(async (req, res) => {
         return res.status(409).json({ message: 'Duplicate email' });
     }
 
-    user.username = username;
-    user.email = email;
-    user.roles = roles;
-    user.active = active;
-    user.card_number = card_number;
-    user.year_study = year_study;
-    user.events = events;
+    // Update fields only if they are provided
+    if (username) user.username = username;
+    if (email) user.email = email;
+    if (Array.isArray(roles) && roles.length) user.roles = roles;
+    if (typeof active === 'boolean') user.active = active;
+    if (card_number) user.card_number = card_number;
+    if (year_study) user.year_study = year_study;
+    if (events) user.events = events;
 
     if (password) {
         // Hash password 
