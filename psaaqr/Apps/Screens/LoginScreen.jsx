@@ -8,6 +8,7 @@ export default function LoginScreen({ onLoginSuccess }) {
   const [error, setError] = useState(null);
 
   const handleLogin = () => {
+    console.log("tekan")
     axios.post('http://172.20.10.7:3500/auth', { username, password })
       .then(response => {
         console.log('Login successful:', response.data);

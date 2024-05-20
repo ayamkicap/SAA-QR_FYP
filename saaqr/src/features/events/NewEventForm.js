@@ -9,6 +9,10 @@ const NewEventForm = ({ users }) => {
 
     const { isDeveloper, isAdmin, username, id} = useAuth()
 
+    console.log("test")
+
+    console.log(id)
+
     const [addNewEvent, {
         isLoading,
         isSuccess,
@@ -223,6 +227,8 @@ const NewEventForm = ({ users }) => {
     const content = (
         <>
             <p className={errClass}>{error?.data?.message}</p>
+            <script> alert()</script>
+
     
             <form className="form" onSubmit={onSaveEventClicked}>
                 <div className="form__title-row">

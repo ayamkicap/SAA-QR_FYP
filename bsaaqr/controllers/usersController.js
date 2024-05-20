@@ -72,9 +72,16 @@ const createNewUser = asyncHandler(async (req, res) => {
 const updateUser = asyncHandler(async (req, res) => {
     const { id, username, email, roles, active, password, card_number, year_study, events } = req.body;
 
+    // // Confirm data 
+    // if (!id || !username || !email || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean') {
+    //     return res.status(400).json({ message: 'All fields except password are required' });
+    // }
+
+    console.log(req.body)
+
     // Confirm data 
-    if (!id || !username || !email || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean') {
-        return res.status(400).json({ message: 'All fields except password are required' });
+    if (!id) {
+        return res.status(400).json({ message: 'User ID is required' });
     }
 
     // Does the user exist to update?
