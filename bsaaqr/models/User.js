@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
 
+const notificationSchema = new mongoose.Schema({
+    message: { type: String, required: true },
+    type: { type: String, enum: ['info', 'warning', 'error'], default: 'info' },
+    read: { type: Boolean, default: false },
+    createdAt: { type: Date, default: Date.now },
+  });
+
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -32,7 +39,8 @@ const userSchema = new mongoose.Schema({
     events: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event'
-    }]
+    }],
+    notifications: [notificationSchema],
 });
 
 module.exports = mongoose.model('User', userSchema);

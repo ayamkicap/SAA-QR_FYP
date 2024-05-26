@@ -47,6 +47,16 @@ export default function HomeScreen() {
       // Optionally, fetch updated data
       const updatedEvents = await axios.get('http://172.20.10.7:3500/events');
       setEvents(updatedEvents.data);
+
+      // Show success notification
+      Alert.alert('Success', `You have successfully joined the event: ${event.title}`);
+
+      // Send a notification to the user
+      await axios.post(`http://172.20.10.7:3500/notifications/${userId}/notifications`, {
+        message: `You have joined the event: ${event.title}`,
+        type: 'info'
+      });
+      
     } catch (err) {
       console.error(err);
       setError(err);
