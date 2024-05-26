@@ -123,9 +123,9 @@ const NewEventForm = ({ users }) => {
     
 
     // const onImgUrlEventChanged = e => setImgUrlEvent(e.target.value);
-    const onQrCodeChanged = e => setQrCode(e.target.value);
+    // const onQrCodeChanged = e => setQrCode(e.target.value);
 
-    const canSave = [title, text, userId, update, dateEvent, timeEvent, locationEvent, priceEvent, contactEvent, formData, qrCode].every(Boolean) && !isLoading;
+    const canSave = [title, text, userId, update, dateEvent, timeEvent, locationEvent, priceEvent, contactEvent, formData].every(Boolean) && !isLoading;
 
     // const onSaveEventClicked = async (e) => {
     //     console.log("Save button clicked");
@@ -390,7 +390,7 @@ const NewEventForm = ({ users }) => {
                 />
 
     
-                <label className="form__label" htmlFor="QR_code">
+                {/* <label className="form__label" htmlFor="QR_code">
                     QR Code:</label>
                 <input
                     className={`form__input`}
@@ -400,7 +400,7 @@ const NewEventForm = ({ users }) => {
                     autoComplete="off"
                     value={qrCode}
                     onChange={onQrCodeChanged}
-                />
+                /> */}
     
                 <label className="form__label form__checkbox-container" htmlFor="username">
                     ASSIGNED TO:</label>

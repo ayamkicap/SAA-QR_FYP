@@ -1,7 +1,7 @@
 const Event = require('../models/Event');
 const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
-const multer = require('multer'); // For handling file uploads
+const QRCode = require('qrcode');  // Import the QRCode module
 
 // Set up multer for handling image uploads
 //const upload = multer({ dest: 'uploads/' }); // Adjust the destination folder as needed
@@ -71,11 +71,13 @@ const createNewEvent = asyncHandler(async (req, res) => {
     console.log("img_url_event:", img_url_event);
     console.log("user_join:", user_join);
 
-    // // Confirm data
+    // Confirm data
     // if (!user || !title || !text || !update || typeof completed !== 'boolean' || !date_event || !time_event || !location_event || !price_event || !contact_event || !QR_code || !img_url_event) {
     //     return res.status(400).json({ message: 'All fields are required' });
     //     console.log("salah")
     // }
+
+    //console.log("sini")
 
     // Validate user_join
     let userJoinArray;
@@ -86,6 +88,7 @@ const createNewEvent = asyncHandler(async (req, res) => {
     }
 
     // Check for duplicate title
+    console.log(title)
     const duplicate = await Event.findOne({ title }).lean().exec();
 
     // if (duplicate) {
@@ -105,9 +108,19 @@ const createNewEvent = asyncHandler(async (req, res) => {
         price_event,
         contact_event,
         img_url_event,
-        QR_code,
+        // QR_code,
         user_join: userJoinArray
     });
+
+    // Generate the QR code using the event ID
+    const qrCodeData = event._id.toString();
+    const qrCodeUrl = await QRCode.toDataURL(qrCodeData);
+
+    // Update the event with the QR code URL
+    event.QR_code = qrCodeUrl;
+    await event.save();
+
+    console.log(event)
 
     if (event) { // Created
         return res.status(201).json({ message: req.file.filename });

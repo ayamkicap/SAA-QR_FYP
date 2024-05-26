@@ -50,7 +50,7 @@ const eventSchema = new mongoose.Schema(
         },
         QR_code: {
             type: String,
-            required: true
+            required: false
         },
         user_join: [{
             type: mongoose.Schema.Types.ObjectId,
