@@ -10,6 +10,7 @@ export default function HomeScreen() {
   const [events, setEvents] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [expanded, setExpanded] = useState({}); // Track expanded state for each event
 
   useEffect(() => {
     axios.get('http://172.20.10.7:3500/events')
@@ -63,6 +64,10 @@ export default function HomeScreen() {
     }
   };
 
+  const toggleExpanded = (eventId) => {
+    setExpanded(prev => ({ ...prev, [eventId]: !prev[eventId] }));
+  };
+
   if (loading) {
     return (
       <View style={styles.centered}>
@@ -84,11 +89,20 @@ export default function HomeScreen() {
     <ScrollView style={{ flex: 1 }}>
       {events.map(event => (
         <View key={event._id} style={styles.eventContainer}>
-          <Text>Title: {event.title}</Text>
-          <Text>Text: {event.text}</Text>
+        <Text style={styles.titleText}>Title: {event.title}</Text>
+          {/* <Text>Title: {event.title}</Text> */}
+          {/* <Text>Text: {event.text}</Text> */}
+          <Text>
+            Text: {expanded[event._id] ? event.text : `${event.text.substring(0, 100)}...`}
+            {event.text.length > 100 && (
+              <Text style={styles.seeMore} onPress={() => toggleExpanded(event._id)}>
+                {expanded[event._id] ? ' See Less' : ' See More'}
+              </Text>
+            )}
+          </Text>
           <Text>Update: {event.update}</Text>
           <TouchableOpacity style={styles.button} onPress={() => handleButtonPress(event)}>
-            <Text style={styles.buttonText}>Button</Text>
+            <Text style={styles.buttonText}>Alert</Text>
           </TouchableOpacity>
           {/* Display other event properties here */}
         </View>
@@ -110,6 +124,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
   },
+  titleText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
   button: {
     backgroundColor: '#0000ff',
     paddingVertical: 10,
@@ -120,6 +139,10 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#ffffff',
+    fontWeight: 'bold',
+  },
+  seeMore: {
+    color: '#0000ff',
     fontWeight: 'bold',
   },
 });

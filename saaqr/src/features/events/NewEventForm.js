@@ -154,14 +154,14 @@ const NewEventForm = ({ users }) => {
     const onSaveEventClicked = async (e) => {
         console.log("here");
         e.preventDefault();
-        console.log('Form Data:', { title, text, userId, update, dateEvent, timeEvent, locationEvent, priceEvent, contactEvent, formData, qrCode });
+        console.log('Form Data:', { title, text, id, update, dateEvent, timeEvent, locationEvent, priceEvent, contactEvent, formData, qrCode });
         console.log('isLoading:', isLoading);
         console.log('canSave:', canSave);
         if (canSave) {
             console.log("Saving event...");
             const submitFormData = new FormData();
             submitFormData.append('img_url_event', formData.get('img_url_event'));
-            submitFormData.append('user', userId);
+            submitFormData.append('user', id);
             submitFormData.append('title', title);
             submitFormData.append('text', text);
             submitFormData.append('update', update);
@@ -402,17 +402,17 @@ const NewEventForm = ({ users }) => {
                     onChange={onQrCodeChanged}
                 /> */}
     
-                <label className="form__label form__checkbox-container" htmlFor="username">
+                {/* <label className="form__label form__checkbox-container" htmlFor="username">
                     ASSIGNED TO:</label>
                 <select
                     id="username"
                     name="username"
                     className="form__select"
-                    value={userId}
+                    value={id}
                     onChange={onUserIdChanged}
                 >
                     {options}
-                </select>
+                </select> */}
 
                 {/* <select
                     id="username"

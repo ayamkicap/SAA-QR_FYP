@@ -1,6 +1,23 @@
 const mongoose = require('mongoose')
 const AutoIncrement = require('mongoose-sequence')(mongoose)
 
+const feedbackSchema = new mongoose.Schema(
+    {
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
+        text: {
+            type: String,
+            required: true
+        }
+    },
+    {
+        timestamps: true
+    }
+);
+
 const eventSchema = new mongoose.Schema(
     {
         user: {
@@ -55,6 +72,9 @@ const eventSchema = new mongoose.Schema(
         user_join: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Event'
+        }],
+        feedback: [{
+            type: [feedbackSchema] // Embedding feedbackSchema
         }]
     },
     {

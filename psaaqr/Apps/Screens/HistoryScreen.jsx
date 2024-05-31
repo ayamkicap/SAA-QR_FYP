@@ -62,6 +62,7 @@ export default function UserScreen() {
   const [events, setEvents] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [expanded, setExpanded] = useState({}); // Track expanded state for each event
   const { id } = useAuth();
 
   useEffect(() => {
@@ -80,6 +81,10 @@ export default function UserScreen() {
     
     fetchData();
   }, []);
+
+  const toggleExpanded = (eventId) => {
+    setExpanded(prev => ({ ...prev, [eventId]: !prev[eventId] }));
+  };
 
   if (loading) {
     return (
@@ -108,14 +113,23 @@ export default function UserScreen() {
           .filter(event => event.user_join && event.user_join.includes(loggedInUser._id))
           .map(event => (
             <View key={event._id} style={styles.eventContainer}>
-              <Text>Event Title: {event.title}</Text>
-              <Text>Event Text: {event.text}</Text>
+            <Text style={styles.titleText}>Title: {event.title}</Text>
+            {/* <Text>Title: {event.title}</Text> */}
+            {/* <Text>Text: {event.text}</Text> */}
+            <Text>
+              Text: {expanded[event._id] ? event.text : `${event.text.substring(0, 100)}...`}
+              {event.text.length > 100 && (
+                <Text style={styles.seeMore} onPress={() => toggleExpanded(event._id)}>
+                  {expanded[event._id] ? ' See Less' : ' See More'}
+                </Text>
+              )}
+            </Text>
               <Text>Event Date: {new Date(event.date_event).toLocaleDateString()}</Text>
               <Text>Event Time: {event.time_event}</Text>
               <Text>Event Location: {event.location_event}</Text>
               <Text>Event Price: {event.price_event}</Text>
               <Text>Contact Event: {event.contact_event}</Text>
-              {event.img_url_event && (
+              {/* {event.img_url_event && (
                   <>
                     <Text>Image URL: </Text>
                     <Image
@@ -124,7 +138,7 @@ export default function UserScreen() {
                       onError={(e) => console.log('Image Load Error:', e.nativeEvent.error)}
                     />
                   </>
-                )}
+                )} */}
             </View>
         ))}
       </View>
@@ -162,6 +176,15 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     marginTop: 10,
+  },
+  titleText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  seeMore: {
+    color: '#0000ff',
+    fontWeight: 'bold',
   },
 });
 

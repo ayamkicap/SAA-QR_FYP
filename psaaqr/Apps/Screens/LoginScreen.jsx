@@ -3,13 +3,13 @@ import { View, Text, Image, TouchableOpacity, TextInput, Button } from 'react-na
 import axios from 'axios';
 
 export default function LoginScreen({ onLoginSuccess }) {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
   const handleLogin = () => {
     console.log("tekan")
-    axios.post('http://172.20.10.7:3500/auth', { username, password })
+    axios.post('http://172.20.10.7:3500/auth', { email, password })
       .then(response => {
         console.log('Login successful:', response.data);
         if (response.data && response.data.accessToken) {
@@ -48,9 +48,9 @@ export default function LoginScreen({ onLoginSuccess }) {
         <View style={{}}>
         <Text style={{ color: 'black', fontSize: 20 }}>Login</Text>
         <TextInput
-          placeholder="Username"
-          value={username}
-          onChangeText={setUsername}
+          placeholder="email"
+          value={email}
+          onChangeText={setEmail}
           style={{ borderWidth: 1, borderColor: '#ccc', padding: 10, marginVertical: 5, width: '80%' }}
         />
         <TextInput

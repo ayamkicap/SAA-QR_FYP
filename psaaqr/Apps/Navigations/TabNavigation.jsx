@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 export default function TabNavigation() {
   return (
     <Tab.Navigator>
-      <Tab.Screen
+      {/* <Tab.Screen
         name='top' // Use a different name for clarity
         component={TabNavigationTop} // Use the top navigation component as the screen component
         options={{
@@ -22,7 +22,7 @@ export default function TabNavigation() {
             <Ionicons name="arrow-up" size={size} color={color} />
           )
         }}
-      />
+      /> */}
       <Tab.Screen
         name='home'
         component={HomeScreen}

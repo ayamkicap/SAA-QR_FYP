@@ -12,7 +12,7 @@ import usePersist from '../../hooks/usePersist'
 const Login = () => {
     const userRef = useRef()
     const errRef = useRef()
-    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [role, setRole] = useState('')
     const [errMsg, setErrMsg] = useState('')
@@ -32,7 +32,7 @@ const Login = () => {
     
     useEffect(() => {
         setErrMsg('');
-    }, [username, password, role])
+    }, [email, password, role])
 
 
     // const handleSubmit = async (e) => {
@@ -62,21 +62,21 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const { accessToken } = await login({ username, password }).unwrap();
+            const { accessToken } = await login({ email, password }).unwrap();
             dispatch(setCredentials({ accessToken }));
             
-            setUsername('');
+            setEmail('');
             setPassword('');
             setRole('');
             navigate('/dash');
         } catch (err) {
-            // if (err.error?.status === 401) {
-            //     setErrMsg('Unauthorized: Incorrect username or password');
-            // } else if (err.error?.status === 400) {
-            //     setErrMsg('Bad Request: Missing username or password');
-            // } else {
-            //     setErrMsg('An error occurred');
-            // }
+            if (err.error?.status === 401) {
+                setErrMsg('Unauthorized: Incorrect username or password');
+            } else if (err.error?.status === 400) {
+                setErrMsg('Bad Request: Missing username or password');
+            } else {
+                setErrMsg('An error occurred');
+            }
             if (err.error) {
                 setErrMsg('Unauthorized: Incorrect username or password');
             }
@@ -92,7 +92,7 @@ const Login = () => {
 
     
 
-    const handleUserInput = (e) => setUsername(e.target.value)
+    const handleUserInput = (e) => setEmail(e.target.value)
     const handlePwdInput = (e) => setPassword(e.target.value)
     const handleRoleChange = (e) => setRole(e.target.value)
     const handleToggle = () => setPersist(prev => !prev)
@@ -110,13 +110,13 @@ const Login = () => {
                 <p ref={errRef} className={errClass} aria-live="assertive">{errMsg}</p>
 
                 <form className="form" onSubmit={handleSubmit}>
-                    <label htmlFor="username">NAME:</label>
+                    <label htmlFor="email">Email:</label>
                     <input
                         className="form__input"
                         type="text"
-                        id="username"
+                        id="email"
                         ref={userRef}
-                        value={username}
+                        value={email}
                         onChange={handleUserInput}
                         autoComplete="off"
                         required

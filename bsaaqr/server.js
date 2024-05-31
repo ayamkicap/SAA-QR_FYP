@@ -43,6 +43,7 @@ app.use('/users', require('./routes/userRoutes'));
 app.use('/events', require('./routes/eventRoutes'));
 app.use('/auth', require('./routes/authRoutes'));
 app.use('/notifications', require('./routes/notificationRoutes'));
+app.use('/feedback', require('./routes/feedbackRoutes'));
 
 // Route for file uploads
 app.post('/upload', upload.single('file'), (req, res) => {

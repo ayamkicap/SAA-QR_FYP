@@ -7,7 +7,7 @@ import useAuth from "../../hooks/useAuth";
 
 const EditEventForm = ({ event, users }) => {
 
-    const { isDeveloper, isAdmin, username} = useAuth()
+    const { isDeveloper, isAdmin, username, id} = useAuth()
 
     const [updateEvent, {
         isLoading,
@@ -286,7 +286,7 @@ const EditEventForm = ({ event, users }) => {
                             onChange={onImageUpload}
                         />
 
-                        <label className="form__label" htmlFor="event-QR-code">
+                        {/* <label className="form__label" htmlFor="event-QR-code">
                             QR Code:</label>
                         <input
                             className={`form__input`}
@@ -296,7 +296,7 @@ const EditEventForm = ({ event, users }) => {
                             autoComplete="off"
                             value={qrCode}
                             onChange={onQrCodeChanged}
-                        />
+                        /> */}
 
                         <label className="form__label form__checkbox-container" htmlFor="username">
                             NAME:
@@ -305,7 +305,7 @@ const EditEventForm = ({ event, users }) => {
                             id="username"
                             name="username"
                             className="form__select visually-hidden" // Add a class for hiding
-                            value={username}
+                            value={id}
                             onChange={onUserIdChanged}
                         >
                             {options}
