@@ -38,6 +38,8 @@ const NewEventForm = ({ users }) => {
     //const [imgUrlEvent, setImgUrlEvent] = useState('');
     const [formData, setFormData] = useState('');
     const [qrCode, setQrCode] = useState('');
+    const [myCSD, setMyCSD] = useState('');
+    const [Teras, setTeras] = useState('');
 
     useEffect(() => {
         //console.log('Update state:', update)
@@ -55,6 +57,8 @@ const NewEventForm = ({ users }) => {
             //setImgUrlEvent('');
             setFormData('')
             setQrCode('')
+            setMyCSD('')
+            setTeras('')
             console.log('New event saved:', data)
             navigate('/dash/events');
         }
@@ -119,13 +123,16 @@ const NewEventForm = ({ users }) => {
             setFormData(formData);
         }
     };
+
+    const onMyCSDEventChanged = e => setMyCSD(e.target.value);
+    const onTerasEventChanged = e => setTeras(e.target.value);
     
     
 
     // const onImgUrlEventChanged = e => setImgUrlEvent(e.target.value);
     // const onQrCodeChanged = e => setQrCode(e.target.value);
 
-    const canSave = [title, text, userId, update, dateEvent, timeEvent, locationEvent, priceEvent, contactEvent, formData].every(Boolean) && !isLoading;
+    const canSave = [title, text, userId, update, dateEvent, timeEvent, locationEvent, priceEvent, contactEvent, formData, myCSD, Teras].every(Boolean) && !isLoading;
 
     // const onSaveEventClicked = async (e) => {
     //     console.log("Save button clicked");
@@ -154,7 +161,7 @@ const NewEventForm = ({ users }) => {
     const onSaveEventClicked = async (e) => {
         console.log("here");
         e.preventDefault();
-        console.log('Form Data:', { title, text, id, update, dateEvent, timeEvent, locationEvent, priceEvent, contactEvent, formData, qrCode });
+        console.log('Form Data:', { title, text, id, update, dateEvent, timeEvent, locationEvent, priceEvent, contactEvent, myCSD, Teras, formData, qrCode });
         console.log('isLoading:', isLoading);
         console.log('canSave:', canSave);
         if (canSave) {
@@ -171,6 +178,9 @@ const NewEventForm = ({ users }) => {
             submitFormData.append('location_event', locationEvent);
             submitFormData.append('price_event', priceEvent);
             submitFormData.append('contact_event', contactEvent);
+            submitFormData.append('myCSD', myCSD);
+            submitFormData.append('Teras', Teras);
+
             submitFormData.append('QR_code', qrCode);
 
             console.log(submitFormData.get('img_url_event'))
@@ -294,6 +304,35 @@ const NewEventForm = ({ users }) => {
                     <option value="COMPLETE">ACCEPT</option>
                     <option value="REJECT">REJECT</option>
                 </select>
+
+                <label className="form__label" htmlFor="Teras">
+                    Teras:
+                </label>
+                <select
+                    className={`form__select`}
+                    id="Teras"
+                    name="Teras"
+                    value={Teras}
+                    onChange={onTerasEventChanged}
+                >
+                    <option value="KEBUDAYAAN">KEBUDAYAAN</option>
+                    <option value="KEPIMPINAN">KEPIMPINAN</option>
+                    <option value="KEUSAHAWAN">KEUSAHAWAN</option>
+                    <option value="KHIDMAT MASYARAKAT">KHIDMAT MASYARAKAT</option>
+                    <option value="REKA CIPTA DAN INOVASI">REKA CIPTA DAN INOVASI</option>
+                    <option value="SUKAN/REKREASI/SOSIALISASI">SUKAN/REKREASI/SOSIALISASI</option>
+                </select>
+
+                <label className="form__label" htmlFor="myCSD">
+                    myCSD:</label>
+                <input
+                    className={`form__input`}
+                    id="myCSD"
+                    name="myCSD"
+                    type="number"
+                    value={myCSD}
+                    onChange={onMyCSDEventChanged}
+                />
 
 
 

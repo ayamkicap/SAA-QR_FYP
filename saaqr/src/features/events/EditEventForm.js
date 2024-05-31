@@ -36,6 +36,8 @@ const EditEventForm = ({ event, users }) => {
     const [contactEvent, setContactEvent] = useState(event.contact_event);
     const [imgUrlEvent, setImgUrlEvent] = useState(event.img_url_event);
     const [qrCode, setQrCode] = useState(event.QR_code);
+    const [myCSD, setMyCSD] = useState('');
+    const [Teras, setTeras] = useState('');
 
     useEffect(() => {
 
@@ -51,6 +53,8 @@ const EditEventForm = ({ event, users }) => {
             setContactEvent('');
             setImgUrlEvent('');
             setQrCode('');
+            setMyCSD('')
+            setTeras('')
             navigate('/dash/events');
         }
 
@@ -67,6 +71,8 @@ const EditEventForm = ({ event, users }) => {
     const onPriceEventChanged = e => setPriceEvent(parseFloat(e.target.value));
     const onContactEventChanged = e => setContactEvent(e.target.value);
     //const onImgUrlEventChanged = e => setImgUrlEvent(e.target.value);
+    const onMyCSDEventChanged = e => setMyCSD(e.target.value);
+    const onTerasEventChanged = e => setTeras(e.target.value);
     const onImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
@@ -84,7 +90,7 @@ const EditEventForm = ({ event, users }) => {
 
     const onSaveEventClicked = async () => {
         if (canSave) {
-            await updateEvent({ id: event.id, user: userId, title, text, update, completed, date_event: dateEvent, time_event: timeEvent, location_event: locationEvent, price_event: priceEvent, contact_event: contactEvent, img_url_event: imgUrlEvent, QR_code: qrCode });
+            await updateEvent({ id: event.id, user: userId, title, text, update, completed, date_event: dateEvent, time_event: timeEvent, location_event: locationEvent, price_event: priceEvent, contact_event: contactEvent, img_url_event: imgUrlEvent, QR_code: qrCode, myCSD, Teras });
         }
     };
 
@@ -192,6 +198,35 @@ const EditEventForm = ({ event, users }) => {
                     <option value="COMPLETE">ACCEPT</option>
                     <option value="REJECT">REJECT</option>
                 </select>
+
+                <label className="form__label" htmlFor="Teras">
+                    Teras:
+                </label>
+                <select
+                    className={`form__select`}
+                    id="Teras"
+                    name="Teras"
+                    value={Teras}
+                    onChange={onTerasEventChanged}
+                >
+                    <option value="KEBUDAYAAN">KEBUDAYAAN</option>
+                    <option value="KEPIMPINAN">KEPIMPINAN</option>
+                    <option value="KEUSAHAWAN">KEUSAHAWAN</option>
+                    <option value="KHIDMAT MASYARAKAT">KHIDMAT MASYARAKAT</option>
+                    <option value="REKA CIPTA DAN INOVASI">REKA CIPTA DAN INOVASI</option>
+                    <option value="SUKAN/REKREASI/SOSIALISASI">SUKAN/REKREASI/SOSIALISASI</option>
+                </select>
+
+                <label className="form__label" htmlFor="myCSD">
+                    myCSD:</label>
+                <input
+                    className={`form__input`}
+                    id="myCSD"
+                    name="myCSD"
+                    type="number"
+                    value={myCSD}
+                    onChange={onMyCSDEventChanged}
+                />
 
 
 

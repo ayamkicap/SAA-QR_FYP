@@ -69,13 +69,21 @@ const eventSchema = new mongoose.Schema(
             type: String,
             required: false
         },
+        myCSD: {
+            type: Number,
+            required: false
+        },
+        Teras: {
+            type: String,
+            required: false
+        },
         user_join: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Event'
         }],
         feedback: [{
             type: [feedbackSchema] // Embedding feedbackSchema
-        }]
+        }],
     },
     {
         timestamps: true

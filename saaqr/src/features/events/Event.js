@@ -36,6 +36,8 @@ const Event = ({ eventId }) => {
                 <TableCell className="table__cell">{event.date_event}</TableCell>
                 <TableCell className="table__cell">{event.time_event}</TableCell>
                 <TableCell className="table__cell">{event.location_event}</TableCell>
+                <TableCell className="table__cell">{event.myCSD}</TableCell>
+                <TableCell className="table__cell">{event.Teras}</TableCell>
                 <TableCell className="table__cell">{event.price_event}</TableCell>
                 <TableCell className="table__cell">{event.contact_event}</TableCell>
                 <TableCell className="table__th event__Image">

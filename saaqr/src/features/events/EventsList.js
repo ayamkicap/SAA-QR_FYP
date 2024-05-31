@@ -58,6 +58,8 @@ const EventsList = () => {
                             <TableCell className="table__th event__Time">Date Event</TableCell>
                             <TableCell className="table__th event__Time">Time Event</TableCell>
                             <TableCell className="table__th event__Location">Location Event</TableCell>
+                            <TableCell className="table__th event__Location">MyCSD</TableCell>
+                            <TableCell className="table__th event__Location">TERAS</TableCell>
                             <TableCell className="table__th event__PRice">Price Event</TableCell>
                             <TableCell className="table__th event__Contact">Contact Event</TableCell>
                             <TableCell className="table__th event__Image">Image URL Event</TableCell>
