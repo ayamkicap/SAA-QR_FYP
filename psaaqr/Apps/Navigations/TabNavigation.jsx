@@ -5,6 +5,7 @@ import TabNavigationTop from './TabNAvigationTop'; // Import the top navigation 
 import HomeScreen from '../Screens/HomeScreen';
 import ScanScreen from '../Screens/ScanScreen';
 import HistoryScreen from '../Screens/HistoryScreen';
+import ProfileScreen from '../Screens/ProfileScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { Text } from 'react-native';
 
@@ -13,16 +14,6 @@ const Tab = createBottomTabNavigator();
 export default function TabNavigation() {
   return (
     <Tab.Navigator>
-      {/* <Tab.Screen
-        name='top' // Use a different name for clarity
-        component={TabNavigationTop} // Use the top navigation component as the screen component
-        options={{
-          tabBarLabel: ({ color }) => <Text style={{ color: color }}>Top</Text>,
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="arrow-up" size={size} color={color} />
-          )
-        }}
-      /> */}
       <Tab.Screen
         name='home'
         component={HomeScreen}
@@ -53,6 +44,17 @@ export default function TabNavigation() {
           )
         }}
       />
+      <Tab.Screen
+        name='profile' // Use a different name for clarity
+        component={ProfileScreen} // Use the top navigation component as the screen component
+        options={{
+          tabBarLabel: ({ color }) => <Text style={{ color: color }}>Profile</Text>,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person" size={size} color={color} />
+          )
+        }}
+      />
     </Tab.Navigator>
+    
   );
 }
