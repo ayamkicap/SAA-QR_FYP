@@ -56,6 +56,16 @@ const ProfileScreen = () => {
             <Paragraph>Year of Study: {loggedInUser.year_study}</Paragraph>
             <Paragraph>Roles: {loggedInUser.roles.join(', ')}</Paragraph>
             <Paragraph>Active: {loggedInUser.active ? 'Yes' : 'No'}</Paragraph>
+
+            {/* Display myCSD information */}
+            <Title style={styles.myCSDTitle}>MyCSD Points</Title>
+            {loggedInUser.myCSD && loggedInUser.myCSD.length > 0 ? (
+              loggedInUser.myCSD.map((csd, index) => (
+                <Paragraph key={index}>{csd.teras}: {csd.points}</Paragraph>
+              ))
+            ) : (
+              <Paragraph>No MyCSD points available.</Paragraph>
+            )}
           </Card.Content>
         </Card>
       ) : (
@@ -78,6 +88,11 @@ const styles = StyleSheet.create({
   card: {
     margin: 10,
     padding: 10,
+  },
+  myCSDTitle: {
+    marginTop: 20,
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 

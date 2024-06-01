@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+const myCSDSchema = new mongoose.Schema({
+    teras: { type: String, required: true },
+    points: { type: Number, default: 0 },
+});
+
 const notificationSchema = new mongoose.Schema({
     message: { type: String, required: true },
     type: { type: String, enum: ['info', 'warning', 'error'], default: 'info' },
@@ -41,6 +46,7 @@ const userSchema = new mongoose.Schema({
         ref: 'Event'
     }],
     notifications: [notificationSchema],
+    myCSD: [myCSDSchema]
 });
 
 module.exports = mongoose.model('User', userSchema);

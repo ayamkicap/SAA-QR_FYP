@@ -26,7 +26,7 @@ export default function ScanScreen() {
   const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
     setText(data);
-    alert('Attendance marked!');
+    Alert.alert('Attendance marked!');
     console.log('Type: ' + type + '\nData: ' + data);
 
     try {
@@ -43,9 +43,15 @@ export default function ScanScreen() {
         events: [eventId]
       });
 
+      await axios.post(`http://localhost:3500/mycsd/join-event`, {
+        userId: userId,
+        eventId: eventId,
+      });
+
       setModalVisible(true);
     } catch (err) {
       console.error(err);
+      Alert.alert('Error', 'Failed to mark attendance. Please try again.');
     }
   };
 
