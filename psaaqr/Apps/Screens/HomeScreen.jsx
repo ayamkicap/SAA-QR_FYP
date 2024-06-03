@@ -2,8 +2,10 @@ import { View, Text, ScrollView, ActivityIndicator, TouchableOpacity, StyleSheet
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useAuth from '../auth/useAuth';
+import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen() {
+  const navigation = useNavigation();
   const { id,username, isDeveloper, isAdmin } = useAuth()
 
   
