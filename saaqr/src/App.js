@@ -15,6 +15,7 @@ import PersistLogin from './features/auth/PersistLogin';
 import RequireAuth from './features/auth/RequireAuth';
 import { ROLES } from './config/roles';
 import EventDetail from './features/events/EventDetail';
+import Profile from './features/profile/Profile';
 
 function App() {
   return (
@@ -42,6 +43,10 @@ function App() {
                   <Route path=":id" element={<EditEvent />} />
                   <Route path=":eventId/detail" element={<EventDetail/>} />
                   <Route path="new" element={<NewEvent />} />
+                </Route>
+
+                <Route path="profile">
+                  <Route index element={<Profile />} />
                 </Route>
 
               </Route> {/* End Dash */}

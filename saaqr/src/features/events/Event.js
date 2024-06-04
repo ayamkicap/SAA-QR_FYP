@@ -1,7 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { fa0, faAngleDoubleRight, faPenToSquare
+import {faAngleDoubleRight, faPenToSquare
  } from "@fortawesome/free-solid-svg-icons"
-import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import { useNavigate } from 'react-router-dom'
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
@@ -39,7 +38,6 @@ const Event = ({ eventId }) => {
                 <TableCell className="table__cell note__updated">{updated}</TableCell>
                 <TableCell className="table__cell event__updated">{event.update}</TableCell>
                 <TableCell className="table__cell event__title">{event.title}</TableCell>
-                <TableCell className="table__cell">{event.text}</TableCell>
                 <TableCell className="table__cell">{event.date_event}</TableCell>
                 <TableCell className="table__cell">{event.time_event}</TableCell>
                 <TableCell className="table__cell">{event.location_event}</TableCell>

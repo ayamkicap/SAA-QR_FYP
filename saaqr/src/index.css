@@ -14,7 +14,8 @@
   /* COLORS */
   --BGCOLOR: #42276a;
   --BORDER-COLOR: #FFF;
-  --COLOR: #FFF;
+  --COLOR: black;
+  --COLOR2: white;
   --ERROR: firebrick;
   --INACTIVE: lightgray;
   --LINK-COLOR: whitesmoke;
@@ -51,7 +52,7 @@
   font-size: 2.5rem;
   background-color: transparent;
   border: none;
-  color: var(--COLOR);
+  color: var(--COLOR2);
   display: grid;
   place-content: center;
 }
@@ -70,9 +71,9 @@
 body {
   font-family: 'Nunito', sans-serif;
   min-height: 100vh;
-  background-color: var(--BGCOLOR);
+  background-color: white;
   color: var(--COLOR);
-  background-image: url('./img/usm.jpg');
+  /* background-image: url('./img/usm.jpg'); */
   background-size: cover;
   background-position: top right;
   background-blend-mode: multiply;
@@ -87,6 +88,58 @@ body {
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+
+/* welcome.js */
+.welcome-section {
+  display: flex; /* Arrange content horizontally */
+  align-items: center; /* Align vertically */
+  justify-content: center; /* Align horizontally within container */
+  min-height: 100vh; /* Ensure content fills viewport height */
+  background-color: #F0F2F5; /* Light background color */
+  padding: 2rem; /* Add some padding */
+}
+
+.welcome-container {
+  background-color: #fff; /* White background for content */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  padding: 3rem; /* Increase content padding */
+  max-width: 800px; /* Limit width for larger screens */
+  width: 100%; /* Ensure full width on smaller screens */
+}
+
+.welcome-header {
+  margin-bottom: 2rem; /* Add space between header and links */
+}
+
+.welcome-header h1 {
+  font-size: 2rem; /* Large headline */
+  margin-bottom: 0.5rem; /* Add some margin below */
+}
+
+.welcome-links {
+  display: flex; /* Arrange links horizontally */
+  flex-wrap: wrap; /* Wrap links to multiple lines if needed */
+  list-style: none; /* Remove default bullet points */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+}
+
+.welcome-links p {
+  margin: 0.5rem; /* Add some margin between links */
+  font-size: 16px; /* Regular text size */
+}
+
+.welcome-links a {
+  text-decoration: none; /* Remove underline on links */
+  color: #343A40; /* Darker text color */
+}
+
+.welcome-links a:hover {
+  color: #007bff; /* Blue on hover */
+  transition: color 0.2s ease-in-out; /* Smooth color transition */
+}
+
 
 
 
@@ -132,13 +185,27 @@ a:focus-visible {
 }
 
 .public__main,
+.login-wrapper {
+  display: flex; /* Inherit from parent or set as needed */
+  flex-direction: column; /* Inherit from parent or set as needed */
+  justify-content: center; /* Inherit from parent or set as needed */
+  align-items: center; /* Inherit from parent or set as needed */
+  height: 100vh; /* Adjust height as needed */
+  border: 1px solid #ddd; /* Border for the wrapper */
+  padding: 2rem; /* Padding inside the wrapper */
+}
+
 .login {
   display: flex;
-    flex-direction: column;
-    justify-content: center; /* Vertically center */
-    align-items: center; /* Horizontally center */
-    height: 100vh; /* Adjust height as needed */
+  flex-direction: column;
+  justify-content: center; /* Vertically center */
+  align-items: center; /* Horizontally center */
+  height: 50vh; /* Adjust height as needed */
+  border: 1px solid #ddd; /* Border for the login section */
+  padding: 2rem; /* Padding inside the login section */
 }
+
+
 
 .public__addr {
   margin-top: 1em;
@@ -147,6 +214,80 @@ a:focus-visible {
 .welcome a::before {
   content: "➜ "
 }
+
+.public {
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+}
+
+.public__hero {
+  position: relative; /* For background image/video */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 70px); /* Adjust height as needed, minus header height */
+}
+
+.public__hero-img {
+  width: 40%; /* Adjust width as needed */
+  height: auto; /* Adjust height as needed */
+  object-fit: cover; /* Ensure image fills container */
+}
+
+.public__hero-content {
+  text-align: center;
+  color: black; /* Assuming light text on dark background */
+}
+
+.public__hero-title {
+  font-size: 2rem; /* Adjust font size as needed */
+  margin-bottom: 1rem;
+}
+
+.public__hero-text {
+  font-size: 1.2rem; /* Adjust font size as needed */
+  margin-bottom: 0;
+}
+
+.public__main {
+  flex-grow: 1; /* Allow main content to fill remaining space */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.public__login-btn {
+  background-color: #42276a; /* Green color */
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  margin-top: 2rem;
+  cursor: pointer;
+}
+
+.public__login-btn.absolute {
+  position: absolute;
+  top: 1rem; /* Adjust as needed */
+  right: 1rem; /* Adjust as needed */
+}
+
+
+.public__content {
+  margin-top: 2rem;
+  color:#000;
+  text-align: center;
+}
+
+.public__content-img {
+  width: 100%; /* Adjust width as needed */
+  height: 100%; /* Adjust width as needed */
+
+  margin: 1rem auto;
+}
+
 
 /* || DASH HEADER, CONTAINER & FOOTER */
 
@@ -469,26 +610,45 @@ tr {
 }
 
 
-/* src/components/SideNav.css */
 .sidenav {
   height: 100%;
   width: 250px;
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #111;
+  background-color: #343A40; /* Darker base color */
   padding-top: 20px;
   z-index: 1;
+  transition: all 0.3s ease-in-out; /* Smooth transition on hover */
+}
+
+.sidenav.active { /* Add active state for expanded sidebar */
+  width: 300px; /* Increase width on active */
+  transition: all 0.3s ease-in-out;
 }
 
 .sidenav a {
-  padding: 8px 8px 8px 16px;
+  padding: 16px 16px 16px 32px; /* Adjust padding for icons */
   text-decoration: none;
-  font-size: 18px;
-  color: white;
+  font-size: 16px; /* Slightly smaller font */
+  color: #f1f1f1; /* Lighter text color */
   display: block;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+  transition: all 0.3s ease-in-out; /* Smooth transition on hover */
 }
 
 .sidenav a:hover {
-  color: #f1f1f1;
+  color: #fff; /* White on hover */
+  background-color: rgba(0, 0, 0, 0.1); /* Slight hover background */
 }
+
+.sidenav i { /* Style icons */
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.sidenav.active a { /* Adjust active state styles */
+  font-weight: bold;
+  border-left: 4px solid #FFA500; /* Solid border for active link */
+}
+

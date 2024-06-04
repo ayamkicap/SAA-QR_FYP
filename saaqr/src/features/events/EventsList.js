@@ -54,7 +54,6 @@ const EventsList = () => {
                             <TableCell className="table__th event__status">UPDATE DATE</TableCell>
                             <TableCell className="table__th event__updated">UPDATE</TableCell>
                             <TableCell className="table__th event__title">TITLE</TableCell>
-                            <TableCell className="table__th event__Date">TEXT</TableCell>
                             <TableCell className="table__th event__Time">Date Event</TableCell>
                             <TableCell className="table__th event__Time">Time Event</TableCell>
                             <TableCell className="table__th event__Location">Location Event</TableCell>
