@@ -1,5 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare } from "@fortawesome/free-solid-svg-icons"
+import { fa0, faAngleDoubleRight, faPenToSquare
+ } from "@fortawesome/free-solid-svg-icons"
+import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import { useNavigate } from 'react-router-dom'
 import TableCell from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
@@ -19,6 +21,11 @@ const Event = ({ eventId }) => {
         const updated = new Date(event.updatedAt).toLocaleString('en-MY', { day: 'numeric', month: 'long' })
 
         const handleEdit = () => navigate(`/dash/events/${eventId}`)
+
+        const handleDetail = () => {
+            navigate(`/dash/events/${eventId}/detail`); // Adjust the path as per your route structure
+          };
+          
 
         return (
             <TableRow className="table__row" key={event._id}>
@@ -52,6 +59,12 @@ const Event = ({ eventId }) => {
                         onClick={handleEdit}
                     >
                         <FontAwesomeIcon icon={faPenToSquare} />
+                    </button>
+                    <button
+                        className="icon-button table__button"
+                        onClick={handleDetail}
+                    >
+                        <FontAwesomeIcon icon={faAngleDoubleRight} />
                     </button>
                 </TableCell>
             </TableRow>

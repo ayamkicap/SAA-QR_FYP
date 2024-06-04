@@ -14,6 +14,7 @@ import Prefetch from './features/auth/Prefetch';
 import PersistLogin from './features/auth/PersistLogin';
 import RequireAuth from './features/auth/RequireAuth';
 import { ROLES } from './config/roles';
+import EventDetail from './features/events/EventDetail';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
                 <Route path="events">
                   <Route index element={<EventsList />} />
                   <Route path=":id" element={<EditEvent />} />
+                  <Route path=":eventId/detail" element={<EventDetail/>} />
                   <Route path="new" element={<NewEvent />} />
                 </Route>
 

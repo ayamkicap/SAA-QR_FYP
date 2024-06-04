@@ -77,7 +77,6 @@ body {
   background-position: top right;
   background-blend-mode: multiply;
 }
-
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -469,3 +468,27 @@ tr {
   font-size: 30px; /* Custom font size */
 }
 
+
+/* src/components/SideNav.css */
+.sidenav {
+  height: 100%;
+  width: 250px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  padding-top: 20px;
+  z-index: 1;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 16px;
+  text-decoration: none;
+  font-size: 18px;
+  color: white;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
