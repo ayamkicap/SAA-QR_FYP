@@ -62,7 +62,6 @@ const EventsList = () => {
                             <TableCell className="table__th event__PRice">Price Event</TableCell>
                             <TableCell className="table__th event__Contact">Contact Event</TableCell>
                             <TableCell className="table__th event__Image">Image URL Event</TableCell>
-                            <TableCell className="table__th event__QRCode">QR Code</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

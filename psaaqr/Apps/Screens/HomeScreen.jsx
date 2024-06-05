@@ -44,7 +44,7 @@ export default function HomeScreen() {
       // Update the user's events field
       await axios.patch(`http://172.20.10.7:3500/users`, {
         id: userId,
-        events: [eventId]
+        eventAttendance: [eventId]
       });
 
       // Optionally, fetch updated data

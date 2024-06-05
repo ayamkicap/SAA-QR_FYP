@@ -45,6 +45,10 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Event'
     }],
+    eventAttendance: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Event'
+    }],
     notifications: [notificationSchema],
     myCSD: [myCSDSchema]
 });

@@ -121,7 +121,7 @@ const EditEventForm = ({ event, users }) => {
     if (isDeveloper || isAdmin) {
         deleteButton = (
             <button
-                className="icon-button"
+                className="icon-button1"
                 title="Delete"
                 onClick={onDeleteEventClicked}
             >
@@ -139,7 +139,7 @@ const EditEventForm = ({ event, users }) => {
                     <h2>Edit Event #{event.ticket}</h2>
                     <div className="form__action-buttons">
                         <button
-                            className="icon-button"
+                            className="icon-button1"
                             title="Save"
                             onClick={onSaveEventClicked}
                             disabled={!canSave}

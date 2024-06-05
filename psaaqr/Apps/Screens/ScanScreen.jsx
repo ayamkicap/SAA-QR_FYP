@@ -35,7 +35,7 @@ export default function ScanScreen() {
 
       await axios.patch(`http://172.20.10.7:3500/events`, {
         id: eventId,
-        user_join: [userId]
+        attendance: [userId]
       });
 
       await axios.patch(`http://172.20.10.7:3500/users`, {

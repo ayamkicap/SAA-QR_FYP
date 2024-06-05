@@ -81,6 +81,10 @@ const eventSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Event'
         }],
+        attendance: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Event'
+        }],
         feedback: [{
             type: [feedbackSchema] // Embedding feedbackSchema
         }],

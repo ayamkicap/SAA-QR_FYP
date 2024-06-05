@@ -22,10 +22,10 @@ const getAllUsers = asyncHandler(async (req, res) => {
 // @route POST /users
 // @access Private
 const createNewUser = asyncHandler(async (req, res) => {
-    const { username, email, password, card_number, roles, year_study,active,events } = req.body;
+    const { username, email, password, card_number, roles, year_study,active,events, eventAttendance } = req.body;
 
     // Confirm data
-    if (!username || !email || !password || !card_number || !year_study || !Array.isArray(roles) || !roles.length || !active || !Array.isArray(events) || !events.length) {
+    if (!username || !email || !password || !card_number || !year_study || !Array.isArray(roles) || !roles.length || !active || !Array.isArray(events) || !events.length || eventAttendance.length) {
         return res.status(400).json({ message: 'All fields are required' });
     }
 
@@ -53,7 +53,7 @@ const createNewUser = asyncHandler(async (req, res) => {
         year_study,
         active,
         events,
-
+        eventAttendance,
     };
 
     // Create and store new user
@@ -70,7 +70,7 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @route PATCH /users
 // @access Private
 const updateUser = asyncHandler(async (req, res) => {
-    const { id, username, email, roles, active, password, card_number, year_study, events } = req.body;
+    const { id, username, email, roles, active, password, card_number, year_study, events,eventAttendance } = req.body;
 
     // // Confirm data 
     // if (!id || !username || !email || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean') {
@@ -111,6 +111,7 @@ const updateUser = asyncHandler(async (req, res) => {
     if (card_number) user.card_number = card_number;
     if (year_study) user.year_study = year_study;
     if (events) user.events = events;
+    if (eventAttendance) user.eventAttendance = eventAttendance;
 
     if (password) {
         // Hash password 

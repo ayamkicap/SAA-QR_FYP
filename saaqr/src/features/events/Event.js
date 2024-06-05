@@ -50,7 +50,6 @@ const Event = ({ eventId }) => {
                     {/* <img src={'http://localhost:3500/'+event.img_url_event} alt="Event Thumbnail" /> */}
 
                 </TableCell>
-                <TableCell className="table__cell"><img src={event.QR_code}/></TableCell>
                 <TableCell className="table__cell">
                     <button
                         className="icon-button table__button"

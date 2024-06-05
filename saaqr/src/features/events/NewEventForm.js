@@ -245,7 +245,7 @@ const NewEventForm = ({ users }) => {
                     <h2>New Event</h2>
                     <div className="form__action-buttons">
                     <button
-                        className="icon-button"
+                        className="icon-button1"
                         title="Save"
                         type="submit"
                         onClick={() => console.log("Save button clicked")} // Add this line

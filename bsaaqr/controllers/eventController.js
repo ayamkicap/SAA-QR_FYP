@@ -31,7 +31,7 @@ const getAllEvents = asyncHandler(async (req, res) => {
 // @route POST /events
 // @access Private
 const createNewEvent = asyncHandler(async (req, res) => {
-    const { user, title, text, update, completed, date_event, time_event, location_event, price_event, contact_event, QR_code, user_join, myCSD, Teras } = req.body;
+    const { user, title, text, update, completed, date_event, time_event, location_event, price_event, contact_event, QR_code, user_join, attendance, myCSD, Teras } = req.body;
     const img_url_event = req.file ? req.file.path.replace(/\\/g, '/') : 'default.jpg'; // Save the path to the uploaded image
 
     // Validate required fields
@@ -70,6 +70,7 @@ const createNewEvent = asyncHandler(async (req, res) => {
     console.log("QR_code:", QR_code);
     console.log("img_url_event:", img_url_event);
     console.log("user_join:", user_join);
+    console.log("attendance:", attendance);
     console.log("myCSD:", myCSD);
     console.log("Teras:", Teras);
 
@@ -112,6 +113,7 @@ const createNewEvent = asyncHandler(async (req, res) => {
         img_url_event,
         // QR_code,
         user_join: userJoinArray,
+        attendance: userJoinArray,
         myCSD,
         Teras
     });
@@ -141,7 +143,7 @@ const updateEvent = asyncHandler(async (req, res) => {
     const { id } = req.body; // Extract id from the body
     const { user, title, text, update, date_event, time_event, location_event, price_event, contact_event, QR_code, myCSD, Teras } = req.body;
 
-    let { completed, user_join } = req.body;
+    let { completed, user_join, attendance } = req.body;
 
     console.log(req.body);
 
@@ -200,6 +202,7 @@ const updateEvent = asyncHandler(async (req, res) => {
     if (contact_event) event.contact_event = contact_event;
     if (QR_code) event.QR_code = QR_code;
     if (user_join) event.user_join = user_join;
+    if (attendance) event.attendance = attendance;
     if (myCSD) event.myCSD = myCSD;
     if (Teras) event.Teras = Teras;
 

@@ -138,18 +138,19 @@ const NewUserForm = () => {
     <>
       <p className={errClass}>{error?.data?.message}</p>
 
-      <form className="form" onSubmit={onSaveUserClicked}>
-        <button
-          title="Save"
-          type="submit"
-          //disabled={!canSave}
-          onClick={onSaveUserClicked}
-        >
-          Save
-        </button>
+      <form className="form">
         <div className="form__title-row">
           <h2>New User</h2>
-          <div className="form__action-buttons"></div>
+          <div className="form__action-buttons">
+          <button
+          className="icon-button1"
+          title="Save"
+          type="submit"
+          onClick={onSaveUserClicked} // Add this line
+        >
+          <FontAwesomeIcon icon={faSave} />
+        </button>
+          </div>
         </div>
         <label className="form__label" htmlFor="username">
           Name: <span className="nowrap">[3-20 letters]</span>
