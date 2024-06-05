@@ -16,6 +16,9 @@ const SideNav = () => {
       <Link to="/dash/profile" className="sidenav-item">
         <i className="fas fa-calendar-alt"></i> Profile
       </Link>
+      <Link to="/dash/logcontrol" className="sidenav-item">
+        <i className="fas fa-calendar-alt"></i> Log Control
+      </Link>
     </div>
   );
 };

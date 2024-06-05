@@ -16,6 +16,7 @@ import RequireAuth from './features/auth/RequireAuth';
 import { ROLES } from './config/roles';
 import EventDetail from './features/events/EventDetail';
 import Profile from './features/profile/Profile';
+import LogController from './features/log/LogController';
 
 function App() {
   return (
@@ -49,6 +50,9 @@ function App() {
                   <Route index element={<Profile />} />
                 </Route>
 
+                <Route path="logcontrol">
+                  <Route index element={<LogController />} />
+                </Route>
               </Route> {/* End Dash */}
             </Route>
           </Route>

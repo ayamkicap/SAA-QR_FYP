@@ -45,6 +45,7 @@ app.use('/auth', require('./routes/authRoutes'));
 app.use('/notifications', require('./routes/notificationRoutes'));
 app.use('/feedback', require('./routes/feedbackRoutes'));
 app.use('/mycsd',require('./routes/myCSDRoutes'));
+app.use('/logs', require('./routes/logRoutes'));
 
 // Route for file uploads
 app.post('/upload', upload.single('file'), (req, res) => {

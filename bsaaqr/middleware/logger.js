@@ -16,17 +16,17 @@ const logEvents = async (message, logFileName) => {
         }
         await fsPromises.appendFile(path.join(__dirname, '..', 'logs', logFileName), logItem)
 
-        // Log to MongoDB
+        // // Log to MongoDB
         const db = mongoose.connection;
         const logCollection = db.collection('logs');
 
-        const log = {
-            dateTime,
-            id: uuid(),
-            message,
-            logFileName,
-            timestamp: new Date()
-        };
+        // const log = {
+        //     dateTime,
+        //     id: uuid(),
+        //     message,
+        //     logFileName,
+        //     timestamp: new Date()
+        // };
 
         await logCollection.insertOne(log);
         console.log('Log event recorded in MongoDB');
