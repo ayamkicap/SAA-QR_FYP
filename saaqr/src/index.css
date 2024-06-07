@@ -336,9 +336,7 @@ a:focus-visible {
 
 .dash-footer {
   font-size: 1rem;
-  position: sticky;
-  bottom: 0;
-  z-index: 1;
+  color: #FFF;
   background-color: var(--BGCOLOR);
   padding: 0.5em;
   border-top: 1px solid var(--BORDER-COLOR);

@@ -6,6 +6,7 @@ import TabNavigation from './Apps/Navigations/TabNavigation';
 import { NavigationContainer } from '@react-navigation/native';
 import TabNavigationTop from './Apps/Navigations/TabNAvigationTop';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import 'react-native-get-random-values';
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

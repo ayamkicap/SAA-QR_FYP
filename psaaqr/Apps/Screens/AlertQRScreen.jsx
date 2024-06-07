@@ -48,7 +48,7 @@ export default function AlertQRScreen() {
     //     eventId: eventId,
     //   });
 
-      setModalVisible(true);
+      // setModalVisible(true);
     } catch (err) {
       console.error(err);
       Alert.alert('Error', 'Failed to mark attendance. Please try again.');

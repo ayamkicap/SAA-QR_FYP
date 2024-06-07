@@ -2,6 +2,10 @@ const Event = require('../models/Event');
 const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
 const QRCode = require('qrcode');  // Import the QRCode module
+const CryptoJS = require('crypto-js');
+
+// Get the secret key from environment variables
+const secretKey = process.env.SECRET_KEY;
 
 // Set up multer for handling image uploads
 //const upload = multer({ dest: 'uploads/' }); // Adjust the destination folder as needed
@@ -119,8 +123,15 @@ const createNewEvent = asyncHandler(async (req, res) => {
     });
 
     // Generate the QR code using the event ID
-    const qrCodeData = event._id.toString();
-    const qrCodeUrl = await QRCode.toDataURL(qrCodeData);
+    // const qrCodeData = event._id.toString();
+    // const qrCodeUrl = await QRCode.toDataURL(qrCodeData);
+
+    // Encrypt the event ID
+    const eventId = event._id.toString();
+    const encryptedEventId = CryptoJS.AES.encrypt(eventId, secretKey).toString();
+
+    // Generate the QR code with the encrypted event ID
+    const qrCodeUrl = await QRCode.toDataURL(encryptedEventId);
 
     // Update the event with the QR code URL
     event.QR_code = qrCodeUrl;
