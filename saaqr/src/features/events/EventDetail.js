@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectEventById } from './eventsApiSlice';
 import QRCode from 'qrcode'; // Ensure correct import
@@ -11,6 +11,8 @@ const EventDetail = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [remainingTime, setRemainingTime] = useState(0);
   const [duration, setDuration] = useState(10); // Default duration is 10 seconds
+
+  const navigate = useNavigate(); // Initialize the useNavigate hook
 
   useEffect(() => {
     const generateQRCode = async () => {
@@ -55,6 +57,10 @@ const EventDetail = () => {
     setDuration(Number(e.target.value));
   };
 
+  const handleNavigate = () => {
+    navigate(`/dash/events/${eventId}/StudentList`);
+  };
+
   if (!event) {
     return <div style={styles.notFound}>Event not found</div>;
   }
@@ -71,7 +77,6 @@ const EventDetail = () => {
           <p><strong>Teras:</strong> {event.Teras}</p>
           <p><strong>Price:</strong> {event.price_event}</p>
           <p><strong>Contact:</strong> {event.contact_event}</p>
-          <button type="button">Click Me!</button>
         </div>
         <div style={styles.qrcodeContainer}>
           <input
@@ -96,6 +101,9 @@ const EventDetail = () => {
             </div>
           )}
         </div>
+        <button onClick={handleNavigate} style={styles.navigateButton}>
+          Go to Student List
+        </button>
       </div>
       <img 
         src={event.QR_code}
@@ -191,6 +199,17 @@ const styles = {
     marginTop: '10px',
     fontSize: '1em',
     color: '#333',
+  },
+  navigateButton: {
+    display: 'block',
+    padding: '10px 20px',
+    fontSize: '1em',
+    color: '#fff',
+    backgroundColor: '#28a745',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    marginTop: '20px',
   },
   notFound: {
     textAlign: 'center',

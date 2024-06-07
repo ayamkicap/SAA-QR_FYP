@@ -17,6 +17,7 @@ import { ROLES } from './config/roles';
 import EventDetail from './features/events/EventDetail';
 import Profile from './features/profile/Profile';
 import LogController from './features/log/LogController';
+import StudentEventList from './features/events/StudentEventList';
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
                   <Route index element={<EventsList />} />
                   <Route path=":id" element={<EditEvent />} />
                   <Route path=":eventId/detail" element={<EventDetail/>} />
+                  <Route path=":eventId/StudentList" element={<StudentEventList/>} />
                   <Route path="new" element={<NewEvent />} />
                 </Route>
 
