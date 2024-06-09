@@ -6,7 +6,8 @@ const CryptoJS = require('crypto-js');
 const crypto = require('crypto');
 
 // Get the secret key from environment variables
-const secret_key = process.env.SECRET_KEY;
+const secret_key1 = process.env.SECRET_KEY1;
+const secret_key2 = process.env.SECRET_KEY2;
 
 // Set up multer for handling image uploads
 //const upload = multer({ dest: 'uploads/' }); // Adjust the destination folder as needed
@@ -36,8 +37,8 @@ const getAllEvents = asyncHandler(async (req, res) => {
 const { randomBytes, createCipheriv, createDecipheriv } = require('crypto');
 
 function generateKeyAndIV() {
-  const key = randomBytes(32); // 256-bit key
-  const iv = randomBytes(16); // Initialization vector
+  const key = secret_key1; // 256-bit key
+  const iv = scrypto.randomBytes(16); // Initialization vector
   return { key, iv };
 }
 
