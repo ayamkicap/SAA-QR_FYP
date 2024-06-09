@@ -3,6 +3,7 @@ import { View, ScrollView, StyleSheet } from 'react-native';
 import { Text, Card, ActivityIndicator, Title, Paragraph } from 'react-native-paper';
 import axios from 'axios';
 import useAuth from '../auth/useAuth';
+import {API_URL} from '../../config/APIconfig'
 
 const NotificationScreen = () => {
     const { id } = useAuth();
@@ -11,7 +12,7 @@ const NotificationScreen = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-      axios.get(`http://172.20.10.7:3500/notifications/${id}/notifications`)
+      axios.get(`${API_URL}/notifications/${id}/notifications`)
         .then(response => {
           setNotifications(response.data);
           setLoading(false);

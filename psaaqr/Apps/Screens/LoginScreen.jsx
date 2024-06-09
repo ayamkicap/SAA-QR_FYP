@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image, TouchableOpacity, TextInput, Button } from 'react-native';
 import axios from 'axios';
+import {API_URL} from '../../config/APIconfig'
 
 export default function LoginScreen({ onLoginSuccess }) {
   const [email, setEmail] = useState('');
@@ -9,7 +10,7 @@ export default function LoginScreen({ onLoginSuccess }) {
 
   const handleLogin = () => {
     console.log("tekan")
-    axios.post('http://172.20.10.7:3500/auth', { email, password })
+    axios.post(`${API_URL}/auth`, { email, password })
       .then(response => {
         console.log('Login successful:', response.data);
         if (response.data && response.data.accessToken) {

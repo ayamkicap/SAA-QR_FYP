@@ -69,6 +69,12 @@ const eventSchema = new mongoose.Schema(
             type: String,
             required: false
         },
+        key: { 
+            type: String 
+        },
+        iv: { 
+            type: String 
+        },
         myCSD: {
             type: Number,
             required: false

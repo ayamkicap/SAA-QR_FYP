@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Camera, CameraView } from 'expo-camera';
 import useAuth from '../auth/useAuth';
 import axios from 'axios';
+import {API_URL} from '../../config/APIconfig'
 
 export default function AlertQRScreen() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -33,17 +34,17 @@ export default function AlertQRScreen() {
       const userId = id; // Replace with the actual user ID
       const eventId = data; // Replace with the actual event ID from the event object
 
-      await axios.patch(`http://172.20.10.7:3500/events`, {
+      await axios.patch(`${API_URL}/events`, {
         id: eventId,
         user_join: [userId]
       });
 
-      await axios.patch(`http://172.20.10.7:3500/users`, {
+      await axios.patch(`${API_URL}/users`, {
         id: userId,
         events: [eventId]
       });
 
-    //   await axios.post(`http://localhost:3500/mycsd/join-event`, {
+    //   await axios.post(`${API_URL}/mycsd/join-event`, {
     //     userId: userId,
     //     eventId: eventId,
     //   });

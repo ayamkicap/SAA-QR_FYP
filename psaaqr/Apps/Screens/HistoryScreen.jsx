@@ -56,6 +56,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, ScrollView, StyleSheet,Image } from 'react-native';
 import axios from 'axios';
 import useAuth from '../auth/useAuth';
+import {API_URL} from '../../config/APIconfig'
 
 export default function UserScreen() {
   const [users, setUsers] = useState(null);
@@ -68,8 +69,8 @@ export default function UserScreen() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const usersResponse = await axios.get('http://172.20.10.7:3500/users');
-        const eventsResponse = await axios.get('http://172.20.10.7:3500/events');
+        const usersResponse = await axios.get(`${API_URL}/users`);
+        const eventsResponse = await axios.get(`${API_URL}/events`);
         setUsers(usersResponse.data);
         setEvents(eventsResponse.data);
         setLoading(false);

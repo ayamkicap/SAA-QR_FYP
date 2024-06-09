@@ -3,9 +3,10 @@ const User = require('../models/User');
 const asyncHandler = require('express-async-handler');
 const QRCode = require('qrcode');  // Import the QRCode module
 const CryptoJS = require('crypto-js');
+const crypto = require('crypto');
 
 // Get the secret key from environment variables
-const secretKey = process.env.SECRET_KEY;
+const secret_key = process.env.SECRET_KEY;
 
 // Set up multer for handling image uploads
 //const upload = multer({ dest: 'uploads/' }); // Adjust the destination folder as needed
@@ -31,11 +32,55 @@ const getAllEvents = asyncHandler(async (req, res) => {
     res.json(eventsWithUser);
 });
 
+
+const { randomBytes, createCipheriv, createDecipheriv } = require('crypto');
+
+function generateKeyAndIV() {
+  const key = randomBytes(32); // 256-bit key
+  const iv = randomBytes(16); // Initialization vector
+  return { key, iv };
+}
+
+function encrypt(text, key, iv) {
+  const cipher = createCipheriv('aes-256-cbc', key, iv);
+  let encrypted = cipher.update(text, 'utf8', 'hex');
+  encrypted += cipher.final('hex');
+  return encrypted;
+}
+
+// function decrypt(encryptedData, key, iv) {
+//   const decipher = createDecipheriv('aes-256-cbc', key, iv);
+//   let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+//   decrypted += decipher.final('utf8');
+//   return decrypted;
+// }
+
+function decrypt(encryptedData, keyBase64, ivBase64) {
+    if (!encryptedData || !keyBase64 || !ivBase64) {
+        throw new Error('encryptedData, keyBase64, and ivBase64 are required for decryption');
+    }
+
+    const key = Buffer.from(keyBase64, 'base64');
+    const iv = Buffer.from(ivBase64, 'base64');
+    const decipher = createDecipheriv('aes-256-cbc', key, iv);
+    try {
+        let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+        decrypted += decipher.final('utf8');
+        return decrypted;
+    } catch (error) {
+        console.error('Decryption failed:', error);
+        throw new Error('Decryption failed');
+    }
+}
+
+
+
+
 // @desc Create new event
 // @route POST /events
 // @access Private
 const createNewEvent = asyncHandler(async (req, res) => {
-    const { user, title, text, update, completed, date_event, time_event, location_event, price_event, contact_event, QR_code, user_join, attendance, myCSD, Teras } = req.body;
+    const { user, title, text, update, completed, date_event, time_event, location_event, price_event, contact_event, QR_code, user_join, attendance, myCSD, Teras} = req.body;
     const img_url_event = req.file ? req.file.path.replace(/\\/g, '/') : 'default.jpg'; // Save the path to the uploaded image
 
     // Validate required fields
@@ -127,17 +172,33 @@ const createNewEvent = asyncHandler(async (req, res) => {
     // const qrCodeUrl = await QRCode.toDataURL(qrCodeData);
 
     // Encrypt the event ID
+    const { key, iv } = generateKeyAndIV();
+    const keyBase64 = key.toString('base64');
+    const ivBase64 = iv.toString('base64');
     const eventId = event._id.toString();
-    const encryptedEventId = CryptoJS.AES.encrypt(eventId, secretKey).toString();
+    const encryptedEventId = encrypt(eventId, key, iv);
+    //const decryptedEventId = decrypt(encryptedEventId, key, iv);
+
+
 
     // Generate the QR code with the encrypted event ID
     const qrCodeUrl = await QRCode.toDataURL(encryptedEventId);
 
-    // Update the event with the QR code URL
+    // // Update the event with the QR code URL
     event.QR_code = qrCodeUrl;
+    event.key = keyBase64;
+    event.iv = ivBase64;
     await event.save();
 
+
     console.log(event)
+    console.log("key:" + key)
+
+    console.log("eventid:" + eventId)
+    console.log("eventid-encrypt:" + encryptedEventId)
+    console.log("iv:" + iv)
+
+    //console.log("test:" + decryptedEventId)
 
     if (event) { // Created
         return res.status(201).json({ message: req.file.filename });
@@ -263,6 +324,38 @@ const deleteEvent = asyncHandler(async (req, res) => {
     res.json(reply);
 });
 
+// @desc Decrypt QR code
+// @route POST /decrypt_qr
+// @access Private
+const decryptQR = asyncHandler(async (req, res) => {
+    const { encrypted_data, key, iv } = req.body;
+
+    // Log the values to check if they are received correctly
+    console.log('Received encrypted_data:', encrypted_data);
+    console.log('Received key:', key);
+    console.log('Received iv:', iv);
+
+    if (!encrypted_data || !key || !iv) {
+        return res.status(400).json({ message: 'encrypted_data, key, and iv are required' });
+    }
+
+    try {
+        // Ensure that encrypted_data is the correct length for decryption
+        if (encrypted_data.length < 32) { // Adjust the minimum length check as needed
+            throw new Error('Invalid encrypted data length');
+        }
+
+        // Decrypt the data
+        const decryptedData = decrypt(encrypted_data, key, iv);
+        res.json({ decrypted: decryptedData });
+    } catch (error) {
+        console.error('Decryption error:', error);
+        res.status(500).json({ message: 'Failed to decrypt data' });
+    }
+});
+
+
+
 
 // Other CRUD operations (updateEvent, deleteEvent) remain the same
 
@@ -270,5 +363,6 @@ module.exports = {
     getAllEvents,
     createNewEvent,
     updateEvent,
-    deleteEvent
+    deleteEvent,
+    decryptQR
 };

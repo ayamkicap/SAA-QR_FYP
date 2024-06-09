@@ -18,6 +18,7 @@ import EventDetail from './features/events/EventDetail';
 import Profile from './features/profile/Profile';
 import LogController from './features/log/LogController';
 import StudentEventList from './features/events/StudentEventList';
+import StudentJoinLIst from './features/events/StudentJoinLIst';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
                   <Route path=":id" element={<EditEvent />} />
                   <Route path=":eventId/detail" element={<EventDetail/>} />
                   <Route path=":eventId/StudentList" element={<StudentEventList/>} />
+                  <Route path=":eventId/StudentJoin" element={<StudentJoinLIst/>} />
                   <Route path="new" element={<NewEvent />} />
                 </Route>
 

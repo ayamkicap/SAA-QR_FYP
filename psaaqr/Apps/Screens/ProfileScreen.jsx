@@ -3,6 +3,7 @@ import { View, ScrollView, StyleSheet } from 'react-native';
 import { Text, Card, ActivityIndicator, Avatar, Title, Paragraph, List } from 'react-native-paper';
 import axios from 'axios';
 import useAuth from '../auth/useAuth';
+import {API_URL} from '../../config/APIconfig'
 
 const ProfileScreen = () => {
   const { id } = useAuth();
@@ -11,7 +12,7 @@ const ProfileScreen = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get('http://172.20.10.7:3500/users')
+    axios.get(`${API_URL}/users`)
       .then(response => {
         setUsers(response.data);
         setLoading(false);

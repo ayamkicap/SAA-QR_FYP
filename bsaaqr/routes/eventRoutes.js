@@ -42,4 +42,7 @@ router.route('/')
     .patch(upload.single('img_url_event'), eventsController.updateEvent) // Specify image upload middleware
     .delete(eventsController.deleteEvent);
 
+// New route for decrypting QR code
+router.post('/decrypt', eventsController.decryptQR);
+
 module.exports = router;

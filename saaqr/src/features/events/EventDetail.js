@@ -57,8 +57,11 @@ const EventDetail = () => {
     setDuration(Number(e.target.value));
   };
 
-  const handleNavigate = () => {
+  const handleNavigate1 = () => {
     navigate(`/dash/events/${eventId}/StudentList`);
+  };
+  const handleNavigate2 = () => {
+    navigate(`/dash/events/${eventId}/StudentJoin`);
   };
 
   if (!event) {
@@ -101,8 +104,11 @@ const EventDetail = () => {
             </div>
           )}
         </div>
-        <button onClick={handleNavigate} style={styles.navigateButton}>
-          Go to Student List
+        <button onClick={handleNavigate2} style={styles.navigateButton}>
+          Go to Student Join List
+        </button>
+        <button onClick={handleNavigate1} style={styles.navigateButton}>
+          Go to Student Attendance List
         </button>
       </div>
       <img 

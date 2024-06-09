@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useAuth from '../auth/useAuth';
 import { useNavigation } from '@react-navigation/native';
+import {API_URL} from '../../config/APIconfig'
 
 export default function HomeScreen() {
   const navigation = useNavigation();
@@ -15,7 +16,7 @@ export default function HomeScreen() {
   const [expanded, setExpanded] = useState({}); // Track expanded state for each event
 
   useEffect(() => {
-    axios.get('http://172.20.10.7:3500/events')
+    axios.get(`${API_URL}/events`)
       .then(response => {
         setEvents(response.data);
         setLoading(false);
@@ -27,6 +28,7 @@ export default function HomeScreen() {
   }, []);
 
   const handleButtonPress = async (event) => {
+    console.log('Event object:', event);  // Log the event object
     console.log(username,id,isDeveloper, isAdmin)
     console.log(event._id)
     try {
