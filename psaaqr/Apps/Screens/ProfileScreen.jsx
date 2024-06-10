@@ -1,27 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
-import { Text, Card, ActivityIndicator, Avatar, Title, Paragraph, List } from 'react-native-paper';
+import { View, ScrollView, StyleSheet, RefreshControl } from 'react-native';
+import { Text, Card, ActivityIndicator, Avatar, Title, Paragraph } from 'react-native-paper';
 import axios from 'axios';
 import useAuth from '../auth/useAuth';
-import {API_URL} from '../../config/APIconfig'
+import { API_URL } from '../../config/APIconfig';
 
 const ProfileScreen = () => {
   const { id } = useAuth();
   const [users, setUsers] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/users`);
+      setUsers(response.data);
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    axios.get(`${API_URL}/users`)
-      .then(response => {
-        setUsers(response.data);
-        setLoading(false);
-      })
-      .catch(error => {
-        setError(error);
-        setLoading(false);
-      });
+    fetchUsers();
   }, []);
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchUsers();
+    setRefreshing(false);
+  };
 
   if (loading) {
     return (
@@ -43,7 +53,12 @@ const ProfileScreen = () => {
   const loggedInUser = users.find(user => user._id === id);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       {loggedInUser ? (
         <Card style={styles.card}>
           <Card.Title

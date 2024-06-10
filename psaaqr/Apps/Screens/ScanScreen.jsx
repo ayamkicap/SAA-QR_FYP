@@ -41,61 +41,6 @@ export default function ScanScreen() {
   // }, []);
 
 
-  // const handleBarCodeScanned = async ({ type, data }) => {
-  //   setScanned(true);
-  //   setText(data);
-  //   Alert.alert('Attendance marked!');
-  //   console.log('Type: ' + type + '\nData: ' + data);
-
-  //   try {
-
-  //     const response = await axios.post(`${API_URL}/events/decrypt`, {
-  //       encrypted_data: data,
-  //   });
-  //     const userId = id; // Replace with the actual user ID
-  //     //const event = event.find(e => e.QR_code === data); // Get the event data
-  //     //const eventId = data; // Replace with the actual event ID from the event object
-
-  //     // Log key and iv to check their values
-  //     // console.log('QR_code:', event.QR_code);
-  //     console.log('key:', event.key);
-
-  //     if (!event || !event.key) {
-  //       throw new Error('QR code, key, and iv are required');
-  //     }
-
-      
-  //   const decryptedData = response.data.decrypted;
-  //   const eventId = decryptedData;
-
-  //     console.log(eventId)
-
-
-  //     await axios.post(`${API_URL}/mycsd/join-event`, {
-  //       userId: userId,
-  //       eventId: eventId,
-  //     })
-
-  //     await axios.patch(`${API_URL}/events`, {
-  //       id: eventId,
-  //       user_join: [userId]
-  //     });
-
-  //     await axios.patch(`${API_URL}/users`, {
-  //       id: userId,
-  //       events: [eventId]
-  //     });
-
-  //     // const response = await axios.post('${API_URL}/mycsd/join-event', payload);
-  //     // console.log('Response:', response.data);
-
-  //     setModalVisible(true);
-  //   } catch (err) {
-  //     console.error(err);
-  //     Alert.alert('Error', 'Failed to mark attendance. Please try again.');
-  //   }
-  // };
-
   const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
     setText(data);
@@ -103,23 +48,79 @@ export default function ScanScreen() {
     console.log('Type: ' + type + '\nData: ' + data);
 
     try {
-        const response = await axios.post(`${API_URL}/events/decrypt`, {
-            encrypted_data: data,
-        });
 
-        const { decrypted, key, iv } = response.data;
+    //   const response = await axios.post(`${API_URL}/events/decrypt`, {
+    //     encrypted_data: data,
+    // });
+      const userId = id; // Replace with the actual user ID
+      //const event = event.find(e => e.QR_code === data); // Get the event data
+      const eventId = data; // Replace with the actual event ID from the event object
 
-        // Now you have access to decrypted data, key, and iv
-        console.log('Decrypted Data:', decrypted);
-        console.log('Key:', key);
-        console.log('IV:', iv);
+      // Log key and iv to check their values
+      // console.log('QR_code:', event.QR_code);
+    //   console.log('key:', event.key);
 
-        // Proceed with your logic using decrypted data, key, and iv
+    //   if (!event || !event.key) {
+    //     throw new Error('QR code, key, and iv are required');
+    //   }
+
+      
+    // const decryptedData = response.data.decrypted;
+    // const eventId = decryptedData;
+
+      console.log("event id" +eventId)
+      console.log("user id" +userId)
+
+
+      // await axios.post(`${API_URL}/mycsd/join-event`, {
+      //   userId: userId,
+      //   eventId: eventId,
+      // })
+
+      await axios.patch(`${API_URL}/events`, {
+        id: eventId,
+        attendance: [userId]
+      });
+
+      // await axios.patch(`${API_URL}/users`, {
+      //   id: userId,
+      //   events: [eventId]
+      // });
+
+      // const response = await axios.post(`${API_URL}/mycsd/join-event`, payload);
+      // console.log('Response:', response.data);
+
+      setModalVisible(true);
     } catch (err) {
-        console.error(err);
-        Alert.alert('Error', 'Failed to mark attendance. Please try again.');
+      console.error(err);
+      Alert.alert('Error', 'Failed to mark attendance. Please try again.');
     }
-};
+  };
+
+//   const handleBarCodeScanned = async ({ type, data }) => {
+//     setScanned(true);
+//     setText(data);
+//     Alert.alert('Attendance marked!');
+//     console.log('Type: ' + type + '\nData: ' + data);
+
+//     try {
+//         const response = await axios.post(`${API_URL}/events/decrypt`, {
+//             encrypted_data: data,
+//         });
+
+//         const { decrypted, key, iv } = response.data;
+
+//         // Now you have access to decrypted data, key, and iv
+//         console.log('Decrypted Data:', decrypted);
+//         console.log('Key:', key);
+//         console.log('IV:', iv);
+
+//         // Proceed with your logic using decrypted data, key, and iv
+//     } catch (err) {
+//         console.error(err);
+//         Alert.alert('Error', 'Failed to mark attendance. Please try again.');
+//     }
+// };
 
 
   const handleFeedbackSubmit = async () => {

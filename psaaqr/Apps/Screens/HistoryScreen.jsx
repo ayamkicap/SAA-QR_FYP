@@ -53,10 +53,10 @@
 
 
 import React, { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator, ScrollView, StyleSheet,Image } from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView, StyleSheet, Image, RefreshControl } from 'react-native';
 import axios from 'axios';
 import useAuth from '../auth/useAuth';
-import {API_URL} from '../../config/APIconfig'
+import { API_URL } from '../../config/APIconfig';
 
 export default function UserScreen() {
   const [users, setUsers] = useState(null);
@@ -65,6 +65,7 @@ export default function UserScreen() {
   const [error, setError] = useState(null);
   const [expanded, setExpanded] = useState({}); // Track expanded state for each event
   const { id } = useAuth();
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -87,6 +88,20 @@ export default function UserScreen() {
     setExpanded(prev => ({ ...prev, [eventId]: !prev[eventId] }));
   };
 
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      const usersResponse = await axios.get(`${API_URL}/users`);
+      const eventsResponse = await axios.get(`${API_URL}/events`);
+      setUsers(usersResponse.data);
+      setEvents(eventsResponse.data);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setRefreshing(false);
+    }
+  };
+
   if (loading) {
     return (
       <View style={styles.center}>
@@ -107,39 +122,42 @@ export default function UserScreen() {
   const loggedInUser = users.find(user => user._id === id);
 
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView
+      style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       <View key={loggedInUser._id} style={styles.userContainer}>
         <Text style={styles.title}>User: {loggedInUser.username}</Text>
         {events && events
           .filter(event => event.user_join && event.user_join.includes(loggedInUser._id))
           .map(event => (
             <View key={event._id} style={styles.eventContainer}>
-            <Text style={styles.titleText}>Title: {event.title}</Text>
-            {/* <Text>Title: {event.title}</Text> */}
-            {/* <Text>Text: {event.text}</Text> */}
-            <Text>
-              Text: {expanded[event._id] ? event.text : `${event.text.substring(0, 100)}...`}
-              {event.text.length > 100 && (
-                <Text style={styles.seeMore} onPress={() => toggleExpanded(event._id)}>
-                  {expanded[event._id] ? ' See Less' : ' See More'}
-                </Text>
-              )}
-            </Text>
+              <Text style={styles.titleText}>Title: {event.title}</Text>
+              <Text>
+                Text: {expanded[event._id] ? event.text : `${event.text.substring(0, 100)}...`}
+                {event.text.length > 100 && (
+                  <Text style={styles.seeMore} onPress={() => toggleExpanded(event._id)}>
+                    {expanded[event._id] ? ' See Less' : ' See More'}
+                  </Text>
+                )}
+              </Text>
               <Text>Event Date: {new Date(event.date_event).toLocaleDateString()}</Text>
               <Text>Event Time: {event.time_event}</Text>
               <Text>Event Location: {event.location_event}</Text>
               <Text>Event Price: {event.price_event}</Text>
               <Text>Contact Event: {event.contact_event}</Text>
               {/* {event.img_url_event && (
-                  <>
-                    <Text>Image URL: </Text>
-                    <Image
-                      source={{ uri: 'http://localhost:3500/'+event.img_url_event }}
-                      style={styles.image}
-                      onError={(e) => console.log('Image Load Error:', e.nativeEvent.error)}
-                    />
-                  </>
-                )} */}
+                <>
+                  <Text>Image URL: </Text>
+                  <Image
+                    source={{ uri: 'http://localhost:3500/'+event.img_url_event }}
+                    style={styles.image}
+                    onError={(e) => console.log('Image Load Error:', e.nativeEvent.error)}
+                  />
+                </>
+              )} */}
             </View>
         ))}
       </View>
@@ -188,5 +206,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-

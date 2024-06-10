@@ -1,19 +1,19 @@
-import { View, Text, ScrollView, ActivityIndicator, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator, TouchableOpacity, StyleSheet, Alert, RefreshControl } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import useAuth from '../auth/useAuth';
 import { useNavigation } from '@react-navigation/native';
-import {API_URL} from '../../config/APIconfig'
+import { API_URL } from '../../config/APIconfig';
 
 export default function HomeScreen() {
   const navigation = useNavigation();
-  const { id,username, isDeveloper, isAdmin } = useAuth()
+  const { id, username, isDeveloper, isAdmin } = useAuth();
 
-  
   const [events, setEvents] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [expanded, setExpanded] = useState({}); // Track expanded state for each event
+  const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
     axios.get(`${API_URL}/events`)
@@ -29,39 +29,37 @@ export default function HomeScreen() {
 
   const handleButtonPress = async (event) => {
     console.log('Event object:', event);  // Log the event object
-    console.log(username,id,isDeveloper, isAdmin)
-    console.log(event._id)
+    console.log(username, id, isDeveloper, isAdmin);
+    console.log(event._id);
     try {
-      // Prepare the data
-      // const userJoinData = ["660acb1cef323daf613bedae", "660acac9ef323daf613bedaa"];
       const userId = id; // Replace with the actual user ID
       const eventId = event._id; // Replace with the actual event ID from the event object
 
       // Update the event's user_join field
-      await axios.patch(`http://172.20.10.7:3500/events`, {
+      await axios.patch(`${API_URL}/events`, {
         id: eventId,
         user_join: [userId]
       });
 
       // Update the user's events field
-      await axios.patch(`http://172.20.10.7:3500/users`, {
+      await axios.patch(`${API_URL}/users`, {
         id: userId,
         eventAttendance: [eventId]
       });
 
       // Optionally, fetch updated data
-      const updatedEvents = await axios.get('http://172.20.10.7:3500/events');
+      const updatedEvents = await axios.get(`${API_URL}/events`);
       setEvents(updatedEvents.data);
 
       // Show success notification
       Alert.alert('Success', `You have successfully joined the event: ${event.title}`);
 
       // Send a notification to the user
-      await axios.post(`http://172.20.10.7:3500/notifications/${userId}/notifications`, {
+      await axios.post(`${API_URL}/notifications/${userId}/notifications`, {
         message: `You have joined the event: ${event.title}`,
         type: 'info'
       });
-      
+
     } catch (err) {
       console.error(err);
       setError(err);
@@ -70,6 +68,18 @@ export default function HomeScreen() {
 
   const toggleExpanded = (eventId) => {
     setExpanded(prev => ({ ...prev, [eventId]: !prev[eventId] }));
+  };
+
+  const onRefresh = async () => {
+    setRefreshing(true);
+    try {
+      const response = await axios.get(`${API_URL}/events`);
+      setEvents(response.data);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setRefreshing(false);
+    }
   };
 
   if (loading) {
@@ -81,21 +91,19 @@ export default function HomeScreen() {
   }
 
   if (error) {
-    // return (
-    //   <View style={styles.centered}>
-    //     <Text>Error: {error.message}</Text>
-    //   </View>
-    // );
     Alert.alert("Error", error.message);
   }
 
   return (
-    <ScrollView style={{ flex: 1 }}>
+    <ScrollView
+      style={{ flex: 1 }}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    >
       {events.map(event => (
         <View key={event._id} style={styles.eventContainer}>
-        <Text style={styles.titleText}>Title: {event.title}</Text>
-          {/* <Text>Title: {event.title}</Text> */}
-          {/* <Text>Text: {event.text}</Text> */}
+          <Text style={styles.titleText}>Title: {event.title}</Text>
           <Text>
             Text: {expanded[event._id] ? event.text : `${event.text.substring(0, 100)}...`}
             {event.text.length > 100 && (
@@ -108,7 +116,6 @@ export default function HomeScreen() {
           <TouchableOpacity style={styles.button} onPress={() => handleButtonPress(event)}>
             <Text style={styles.buttonText}>Alert</Text>
           </TouchableOpacity>
-          {/* Display other event properties here */}
         </View>
       ))}
     </ScrollView>

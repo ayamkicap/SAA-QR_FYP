@@ -169,35 +169,35 @@ const createNewEvent = asyncHandler(async (req, res) => {
     });
 
     // Generate the QR code using the event ID
-    // const qrCodeData = event._id.toString();
-    // const qrCodeUrl = await QRCode.toDataURL(qrCodeData);
+    const qrCodeData = event._id.toString();
+    const qrCodeUrl = await QRCode.toDataURL(qrCodeData);
 
-    // Encrypt the event ID
-    const { key, iv } = generateKeyAndIV();
-    const keyBase64 = key.toString('base64');
-    const ivBase64 = iv.toString('base64');
-    const eventId = event._id.toString();
-    const encryptedEventId = encrypt(eventId, key, iv);
+
+
+    // // Encrypt the event ID
+    // const { key, iv } = generateKeyAndIV();
+    // const keyBase64 = key.toString('base64');
+    // const ivBase64 = iv.toString('base64');
+    // const eventId = event._id.toString();
+    // const encryptedEventId = encrypt(eventId, key, iv);
     //const decryptedEventId = decrypt(encryptedEventId, key, iv);
 
-
-
     // Generate the QR code with the encrypted event ID
-    const qrCodeUrl = await QRCode.toDataURL(encryptedEventId);
+    //const qrCodeUrl = await QRCode.toDataURL(encryptedEventId);
 
     // // Update the event with the QR code URL
     event.QR_code = qrCodeUrl;
-    event.key = keyBase64;
-    event.iv = ivBase64;
+    // event.key = keyBase64;
+    // event.iv = ivBase64;
     await event.save();
 
 
     console.log(event)
-    console.log("key:" + key)
+    //console.log("key:" + key)
 
-    console.log("eventid:" + eventId)
-    console.log("eventid-encrypt:" + encryptedEventId)
-    console.log("iv:" + iv)
+    console.log("eventid:" + qrCodeData)
+    //console.log("eventid-encrypt:" + encryptedEventId)
+    //console.log("iv:" + iv)
 
     //console.log("test:" + decryptedEventId)
 

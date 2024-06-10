@@ -27,7 +27,7 @@ export default function AlertQRScreen() {
   const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
     setText(data);
-    Alert.alert('Attendance marked!');
+    Alert.alert('You Have Joined!');
     console.log('Type: ' + type + '\nData: ' + data);
 
     try {
