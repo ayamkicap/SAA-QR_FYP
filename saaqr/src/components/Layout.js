@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom';
 const Layout = () => {
   return (
     <div>
-      <div style={{ marginLeft: '250px', padding: '20px' }}>
+      <div style={{padding: '20px' }}>
         <Outlet />
       </div>
     </div>

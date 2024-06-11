@@ -197,13 +197,14 @@ a:focus-visible {
 
 .public__main,
 .login-wrapper {
-  display: flex; /* Inherit from parent or set as needed */
-  flex-direction: column; /* Inherit from parent or set as needed */
-  justify-content: center; /* Inherit from parent or set as needed */
-  align-items: center; /* Inherit from parent or set as needed */
-  height: 100vh; /* Adjust height as needed */
-  border: 1px solid #ddd; /* Border for the wrapper */
-  padding: 2rem; /* Padding inside the wrapper */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  padding: 2rem;
+  color: #fff; /* Light text color */
+  border: none;
 }
 
 .login {
@@ -214,6 +215,7 @@ a:focus-visible {
   height: 50vh; /* Adjust height as needed */
   border: 1px solid #ddd; /* Border for the login section */
   padding: 2rem; /* Padding inside the login section */
+  background-color: #42276a; /* Primary color for background */
 }
 
 
@@ -254,13 +256,14 @@ a:focus-visible {
 
 .public__hero-title {
   font-size: 2rem; /* Adjust font size as needed */
-  margin-bottom: 1rem;
+  margin-bottom: 0; /* Updated line to remove margin */
 }
 
 .public__hero-text {
   font-size: 1.2rem; /* Adjust font size as needed */
-  margin-bottom: 0;
+  margin-top: 0; /* Updated line to remove margin */
 }
+
 
 .public__main {
   flex-grow: 1; /* Allow main content to fill remaining space */
@@ -286,17 +289,25 @@ a:focus-visible {
 }
 
 
-.public__content {
-  margin-top: 2rem;
-  color:#000;
+.public__hero-content {
   text-align: center;
+  color: black; /* Assuming light text on dark background */
+  justify-content: center; /* Added line to center text horizontally */
 }
+
 
 .public__content-img {
   width: 100%; /* Adjust width as needed */
   height: 100%; /* Adjust width as needed */
+  margin-top: 80px;
+  /* margin: 1rem auto; */
+}
 
-  margin: 1rem auto;
+.public__content {
+  margin-top: 200px;
+  align-items: center;
+  text-align: center;
+
 }
 
 
@@ -309,6 +320,7 @@ a:focus-visible {
   background-color: var(--BGCOLOR);
   padding: 0 0.5em;
   border-bottom: 1px solid var(--BORDER-COLOR);
+  margin-left: 250px;
 }
 
 .dash-header__container {
@@ -330,6 +342,7 @@ a:focus-visible {
 }
 
 .dash-container {
+  margin-left: 250px;
   padding: 0.75em 0.5em 0.5em;
   flex-grow: 1;
 }
@@ -344,6 +357,7 @@ a:focus-visible {
   flex-flow: row nowrap;
   justify-content: flex-start;
   gap: 1em;
+  margin-left: 250px;
 }
 
 .dash-footer__button {
@@ -542,39 +556,63 @@ tr {
   }
 }
 
+/* SideNav styles */
 .sidenav {
   height: 100%;
-  width: 0;
+  width: 250px;
   position: fixed;
-  z-index: 1;
   top: 0;
   left: 0;
-  background-color: #111;
-  overflow-x: hidden;
-  transition: 0.5s;
-  padding-top: 60px;
+  background-color: #343A40;
+  padding-top: 20px;
+  z-index: 1;
+  transition: all 0.3s ease-in-out;
+}
+
+.sidenav-header {
+  padding: 20px;
+  background-color: #2F2F2F;
+  text-align: center;
+  border-bottom: 1px solid #5B3B8A;
+}
+
+.sidenav-header h1 {
+  font-size: 1.5rem;
+  color: var(--BGCOLOR);
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.sidenav.active {
+  width: 300px;
+  transition: all 0.3s ease-in-out;
 }
 
 .sidenav a {
-  padding: 8px 8px 8px 32px;
+  padding: 16px 16px 16px 32px;
   text-decoration: none;
-  font-size: 25px;
-  color: #818181;
+  font-size: 16px;
+  color: #f1f1f1;
   display: block;
-  transition: 0.3s;
+  border-bottom: 1px solid #5B3B8A;
+  transition: all 0.3s ease-in-out;
 }
 
 .sidenav a:hover {
-  color: #f1f1f1;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
-.sidenav .closebtn {
-  position: absolute;
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
+.sidenav i {
+  margin-right: 10px;
+  font-size: 20px;
 }
+
+.sidenav.active a {
+  font-weight: bold;
+  border-left: 4px solid #FFA500;
+}
+
 
 @media screen and (max-height: 450px) {
   .sidenav {padding-top: 15px;}
@@ -625,10 +663,24 @@ tr {
   position: fixed;
   top: 0;
   left: 0;
-  background-color: #343A40; /* Darker base color */
+  background-color: #42276a; /* Darker base color */
   padding-top: 20px;
   z-index: 1;
   transition: all 0.3s ease-in-out; /* Smooth transition on hover */
+}
+
+.sidenav-header {
+  padding: 20px;
+  background-color: #3a2361; /* Slightly darker shade of primary color */
+  text-align: center;
+  border-bottom: 1px solid #5B3B8A; /* Complementary lighter shade */
+}
+
+.sidenav-header h1 {
+  font-size: 1.5rem;
+  color: #FFD700; /* Complementary color for text */
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
 }
 
 .sidenav.active { /* Add active state for expanded sidebar */

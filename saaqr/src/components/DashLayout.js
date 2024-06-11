@@ -8,7 +8,7 @@ const DashLayout = () => {
         <>
             <DashHeader />
             <SideNav/>
-            <div className="dash-container">
+            <div className="dash-container" >
                 <Outlet />
             </div>
             <DashFooter />
