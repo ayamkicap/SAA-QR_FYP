@@ -1,31 +1,56 @@
-const User = require('../models/User')
-const Event = require('../models/Event')
-const asyncHandler = require('express-async-handler')
-const bcrypt = require('bcrypt')
+const User = require('../models/User');
+const Event = require('../models/Event');
+const asyncHandler = require('express-async-handler');
+const bcrypt = require('bcrypt');
+const crypto = require('crypto');
+
+// Get the secret key from environment variables
+const secret_key1 = process.env.SECRET_KEY1;
+
+function generateKeyAndIV() {
+    const key = Buffer.from(secret_key1, 'hex'); // Convert from hex to buffer
+    if (key.length !== 32) {
+        throw new Error('Invalid key length: ' + key.length);
+    }
+    const iv = crypto.randomBytes(16); // Initialization vector
+    return { key, iv };
+}
+
+function encrypt(text, key, iv) {
+    const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    return encrypted;
+}
+
+function decrypt(encryptedData, key, iv) {
+    const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+    let decrypted = decipher.update(encryptedData, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
 
 // @desc Get all users
 // @route GET /users
 // @access Private
 const getAllUsers = asyncHandler(async (req, res) => {
-    // Get all users from MongoDB
-    const users = await User.find().select('-password').lean()
+    const users = await User.find().select('-password').lean();
 
-    // If no users 
     if (!users?.length) {
-        return res.status(400).json({ message: 'No users found' })
+        return res.status(400).json({ message: 'No users found' });
     }
 
-    res.json(users)
-})
+    res.json(users);
+});
 
 // @desc Create new user
 // @route POST /users
 // @access Private
 const createNewUser = asyncHandler(async (req, res) => {
-    const { username, email, password, card_number, roles, year_study,active,events, eventAttendance } = req.body;
+    const { username, email, password, card_number, roles, year_study, active, events, eventAttendance } = req.body;
 
     // Confirm data
-    if (!username || !email || !password || !card_number || !year_study || !Array.isArray(roles) || !roles.length || !active || !Array.isArray(events) || !events.length || eventAttendance.length) {
+    if (!username || !email || !password || !card_number || !year_study || !Array.isArray(roles) || !roles.length || !active) {
         return res.status(400).json({ message: 'All fields are required' });
     }
 
@@ -59,7 +84,20 @@ const createNewUser = asyncHandler(async (req, res) => {
     // Create and store new user
     const user = await User.create(userObject);
 
-    if (user) { //created
+    // Encrypt the user ID
+    const { key, iv } = generateKeyAndIV();
+    const keyBase64 = key.toString('base64');
+    const ivBase64 = iv.toString('base64');
+    const userId = user._id.toString();
+    const encryptedUserId = encrypt(userId, key, iv);
+
+    user.encrypt = encryptedUserId;
+    user.iv = ivBase64;
+    user.key = keyBase64;
+
+    await user.save();
+
+    if (user) {
         res.status(201).json({ message: `New user ${username} created` });
     } else {
         res.status(400).json({ message: 'Invalid user data received' });
@@ -70,16 +108,24 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @route PATCH /users
 // @access Private
 const updateUser = asyncHandler(async (req, res) => {
-    const { id, username, email, roles, active, password, card_number, year_study, events,eventAttendance } = req.body;
+    let { id, username, email, roles, active, password, card_number, year_study, events, eventAttendance, encrypt, iv, key } = req.body;
 
-    // // Confirm data 
-    // if (!id || !username || !email || !Array.isArray(roles) || !roles.length || typeof active !== 'boolean') {
-    //     return res.status(400).json({ message: 'All fields except password are required' });
-    // }
+    console.log(req.body);
+    const Nkey = Buffer.from(key, 'base64');
+    const Niv = Buffer.from(iv, 'base64');
 
-    console.log(req.body)
+    console.log("Nkey:", Nkey);
+    console.log("Niv:", Niv);
 
-    // Confirm data 
+    if (Niv.length !== 16) {
+        return res.status(400).json({ message: 'Invalid initialization vector' });
+    }
+
+    const decryptedUserId = decrypt(encrypt, Nkey, Niv);
+    console.log("Decrypt:", decryptedUserId);
+    id = decryptedUserId;
+    console.log(req.body);
+
     if (!id) {
         return res.status(400).json({ message: 'User ID is required' });
     }
@@ -114,8 +160,8 @@ const updateUser = asyncHandler(async (req, res) => {
     if (eventAttendance) user.eventAttendance = eventAttendance;
 
     if (password) {
-        // Hash password 
-        user.password = await bcrypt.hash(password, 10); // salt rounds 
+        // Hash password
+        user.password = await bcrypt.hash(password, 10); // salt rounds
     }
 
     const updatedUser = await user.save();
@@ -123,42 +169,40 @@ const updateUser = asyncHandler(async (req, res) => {
     res.json({ message: `${updatedUser.username} updated` });
 });
 
-
-
 // @desc Delete a user
 // @route DELETE /users
 // @access Private
 const deleteUser = asyncHandler(async (req, res) => {
-    const { id } = req.body
+    const { id } = req.body;
 
     // Confirm data
     if (!id) {
-        return res.status(400).json({ message: 'User ID Required' })
+        return res.status(400).json({ message: 'User ID Required' });
     }
 
     // Does the user still have assigned events?
-    const event = await Event.findOne({ user: id }).lean().exec()
+    const event = await Event.findOne({ user: id }).lean().exec();
     if (event) {
-        return res.status(400).json({ message: 'User has assigned events' })
+        return res.status(400).json({ message: 'User has assigned events' });
     }
 
     // Does the user exist to delete?
-    const user = await User.findById(id).exec()
+    const user = await User.findById(id).exec();
 
     if (!user) {
-        return res.status(400).json({ message: 'User not found' })
+        return res.status(400).json({ message: 'User not found' });
     }
 
-    const result = await user.deleteOne()
+    const result = await user.deleteOne();
 
-    const reply = `Username ${result.username} with ID ${result._id} deleted`
+    const reply = `Username ${result.username} with ID ${result._id} deleted`;
 
-    res.json(reply)
-})
+    res.json(reply);
+});
 
 module.exports = {
     getAllUsers,
     createNewUser,
     updateUser,
     deleteUser
-}
+};

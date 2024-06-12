@@ -50,7 +50,16 @@ const userSchema = new mongoose.Schema({
         ref: 'Event'
     }],
     notifications: [notificationSchema],
-    myCSD: [myCSDSchema]
+    myCSD: [myCSDSchema],
+    encrypt: {
+        type: String
+    },
+    iv: {
+        type: String
+    },
+    key: {
+        type: String
+    },
 });
 
 module.exports = mongoose.model('User', userSchema);
