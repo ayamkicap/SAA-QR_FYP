@@ -4,6 +4,7 @@ import { useAddNewEventMutation } from "./eventsApiSlice";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../../hooks/useAuth";
+import { API_URL } from "../../config/APIconfig";
 
 const NewEventForm = ({ users }) => {
 
@@ -186,7 +187,7 @@ const NewEventForm = ({ users }) => {
             console.log(submitFormData.get('img_url_event'))
     
             try {
-                const response = await fetch('http://localhost:3500/events', {
+                const response = await fetch(`${API_URL}/events`, {
                     method: 'POST',
                     body: submitFormData
                 });

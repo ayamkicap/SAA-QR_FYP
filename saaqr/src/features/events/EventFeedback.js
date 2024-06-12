@@ -118,44 +118,60 @@ const EventDetail = () => {
           Student Feedback
         </button>
       </div>
-      <img 
-        src={event.QR_code}
-        alt="Event Thumbnail"
-        style={styles.thumbnail}
-      />
-      <img
-        src={`${API_URL}${event.img_url_event}`}
-        alt="Event Thumbnail"
-        style={styles.thumbnail}
-      />
+      <div style={styles.thumbnails}>
+        <img
+          src={event.QR_code}
+          alt="Event QR Code"
+          style={styles.thumbnail}
+        />
+        <img
+          src={`${API_URL}/${event.img_url_event}`}
+          alt="Event Thumbnail"
+          style={styles.thumbnail}
+        />
+      </div>
     </div>
   );
 };
 
 const styles = {
   container: {
-    display: 'flex', // Make container a flexbox
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     padding: '20px',
     fontFamily: 'Arial, sans-serif',
+    backgroundColor: '#f9f9f9',
+    borderRadius: '8px',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+    width: '100%', // Full width
+    maxWidth: '1200px', // Max width to ensure it doesn't get too wide
+    margin: '0 auto',
   },
   content: {
-    flex: 1, // Allow content to fill remaining space
+    width: '100%', // Full width
   },
   details: {
     marginBottom: '20px',
   },
+  thumbnails: {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '20px',
+    marginTop: '20px',
+  },
   thumbnail: {
-    width: '200px', // Adjust width as needed
-    height: 'auto',
+    width: '150px',
+    height: '150px',
     borderRadius: '8px',
-    objectFit: 'contain',
-    marginLeft: '20px', // Add margin from content
+    objectFit: 'cover',
+    border: '1px solid #ddd',
   },
   qrcodeContainer: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    marginTop: '20px', // Add margin from details
+    marginTop: '20px',
   },
   durationInput: {
     marginBottom: '10px',
@@ -163,9 +179,10 @@ const styles = {
     fontSize: '1em',
     borderRadius: '4px',
     border: '1px solid #ccc',
+    width: '100%', // Full width
+    maxWidth: '300px', // Max width for better appearance
   },
   qrButton: {
-    display: 'block',
     padding: '10px 20px',
     fontSize: '1em',
     color: '#fff',
@@ -173,6 +190,10 @@ const styles = {
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  },
+  qrButtonHover: {
+    backgroundColor: '#0056b3',
   },
   modal: {
     display: 'flex',
@@ -215,14 +236,19 @@ const styles = {
   },
   navigateButton: {
     display: 'block',
-    padding: '10px 20px',
+    width: '100%', // Full width
+    padding: '10px 0',
     fontSize: '1em',
     color: '#fff',
     backgroundColor: '#28a745',
     border: 'none',
     borderRadius: '4px',
     cursor: 'pointer',
-    marginTop: '20px',
+    marginTop: '10px',
+    transition: 'background-color 0.3s ease',
+  },
+  navigateButtonHover: {
+    backgroundColor: '#218838',
   },
   notFound: {
     textAlign: 'center',

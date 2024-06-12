@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import { selectEventById } from './eventsApiSlice';
 import axios from 'axios';
 import useAuth from '../../hooks/useAuth'
+import { API_URL } from '../../config/APIconfig';
 
 const Event = ({ eventId }) => {
     const [showPrompt, setShowPrompt] = useState(false);
@@ -27,7 +28,7 @@ const Event = ({ eventId }) => {
 
         const handleAccept = async () => {
             try {
-                const response = await axios.patch('http://localhost:3500/events', {
+                const response = await axios.patch(`${API_URL}/events`, {
                     id: eventId,
                     update: 'ACCEPT'
                 }, {
@@ -46,7 +47,7 @@ const Event = ({ eventId }) => {
 
         const handleDecline = async () => {
             try {
-                const response = await axios.patch('http://localhost:3500/events', {
+                const response = await axios.patch(`${API_URL}/events`, {
                     id: eventId,
                     update: 'REJECT'
                 }, {
@@ -65,7 +66,7 @@ const Event = ({ eventId }) => {
 
         const handleOpen = async () => {
             try {
-                const response = await axios.patch('http://localhost:3500/events', {
+                const response = await axios.patch(`${API_URL}/events`, {
                     id: eventId,
                     status: 'Open'
                 }, {
@@ -84,7 +85,7 @@ const Event = ({ eventId }) => {
 
         const handleClose = async () => {
             try {
-                const response = await axios.patch('http://localhost:3500/events', {
+                const response = await axios.patch(`${API_URL}/events`, {
                     id: eventId,
                     status: 'Close'
                 }, {
@@ -153,7 +154,7 @@ const Event = ({ eventId }) => {
                 <TableCell className="table__cell">{event.price_event}</TableCell>
                 <TableCell className="table__cell">{event.contact_event}</TableCell>
                 <TableCell className="table__th event__Image">
-                    <img src={'http://localhost:3500/' + event.img_url_event} alt="Event Thumbnail" style={{ maxWidth: '100px', maxHeight: '100px' }} />
+                    <img src={`${API_URL}:3500/` + event.img_url_event} alt="Event Thumbnail" style={{ maxWidth: '100px', maxHeight: '100px' }} />
                 </TableCell>
                 <TableCell className="table__cell">
                     <button
