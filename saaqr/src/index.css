@@ -404,8 +404,8 @@ tr {
 }
 
 .table__cell:last-child {
-  display: grid;
-  place-content: center;
+  /* display: grid;
+  place-content: center; */
 }
 
 .table__cell--inactive {

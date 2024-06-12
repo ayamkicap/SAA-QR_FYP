@@ -154,7 +154,7 @@ const Event = ({ eventId }) => {
                 <TableCell className="table__cell">{event.price_event}</TableCell>
                 <TableCell className="table__cell">{event.contact_event}</TableCell>
                 <TableCell className="table__th event__Image">
-                    <img src={`${API_URL}:3500/` + event.img_url_event} alt="Event Thumbnail" style={{ maxWidth: '100px', maxHeight: '100px' }} />
+                    <img src={`${API_URL}/` + event.img_url_event} alt="Event Thumbnail" style={{ maxWidth: '100px', maxHeight: '100px' }} />
                 </TableCell>
                 <TableCell className="table__cell">
                     <button
