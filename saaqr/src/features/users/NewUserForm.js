@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { ROLES } from "../../config/roles";
 
-const USER_REGEX = /^[A-z]{3,20}$/;
+const USER_REGEX = /^[A-z]{3,100}$/;
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
 const CARD_NUMBER_REGEX = /^[0-9]{6,10}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -153,7 +153,7 @@ const NewUserForm = () => {
           </div>
         </div>
         <label className="form__label" htmlFor="username">
-          Name: <span className="nowrap">[3-20 letters]</span>
+          Name: <span className="nowrap">[3-100 letters]</span>
         </label>
         <input
           className={`form__input ${validUserClass}`}

@@ -18,7 +18,8 @@ export default function HomeScreen() {
   useEffect(() => {
     axios.get(`${API_URL}/events`)
       .then(response => {
-        setEvents(response.data);
+        const filteredEvents = response.data.filter(event => event.update === "ACCEPT" && event.completed === false);
+        setEvents(filteredEvents);
         setLoading(false);
       })
       .catch(error => {
@@ -49,7 +50,8 @@ export default function HomeScreen() {
 
       // Optionally, fetch updated data
       const updatedEvents = await axios.get(`${API_URL}/events`);
-      setEvents(updatedEvents.data);
+      const filteredEvents = updatedEvents.data.filter(event => event.update === "ACCEPT" && event.completed === false);
+      setEvents(filteredEvents);
 
       // Show success notification
       Alert.alert('Success', `You have successfully joined the event: ${event.title}`);
@@ -74,7 +76,8 @@ export default function HomeScreen() {
     setRefreshing(true);
     try {
       const response = await axios.get(`${API_URL}/events`);
-      setEvents(response.data);
+      const filteredEvents = response.data.filter(event => event.update === "ACCEPT" && event.completed === false);
+      setEvents(filteredEvents);
     } catch (error) {
       setError(error);
     } finally {
