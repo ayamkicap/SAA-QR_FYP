@@ -46,20 +46,20 @@ export default function LoginScreen({ onLoginSuccess }) {
           <Text style={{ fontSize: 18, color: 'white' }}>Get Started</Text>
         </TouchableOpacity> */}
 
-        <View style={{}}>
+        <View style={{width: "80%", alignItems: "center"}}>
         <Text style={{ color: 'black', fontSize: 20 }}>Login</Text>
         <TextInput
           placeholder="email"
           value={email}
           onChangeText={setEmail}
-          style={{ borderWidth: 1, borderColor: '#ccc', padding: 10, marginVertical: 5, width: '80%' }}
+          style={{ borderWidth: 1, borderColor: '#ccc', padding: 10, marginVertical: 5, width: '80%', borderRadius: 10 }}
         />
         <TextInput
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
-          style={{ borderWidth: 1, borderColor: '#ccc', padding: 10, marginVertical: 5, width: '80%' }}
+          style={{ borderWidth: 1, borderColor: '#ccc', padding: 10, marginVertical: 5, width: '80%', borderRadius: 10 }}
         />
         <Button title="Login" onPress={handleLogin} />
         {error && <Text style={{ color: 'red' }}>{error}</Text>}
