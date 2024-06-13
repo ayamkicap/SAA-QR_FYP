@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { ROLES } from "../../config/roles";
 
-const USER_REGEX = /^[A-z]{3,100}$/;
+const USER_REGEX = /^[A-Za-z ]{3,100}$/;
 const PWD_REGEX = /^[A-z0-9!@#$%]{4,12}$/;
 const CARD_NUMBER_REGEX = /^[0-9]{6,10}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
