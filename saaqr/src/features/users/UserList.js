@@ -65,7 +65,7 @@ const UsersList = () => {
               <TableCell >Email</TableCell>
               <TableCell >Card Number</TableCell>
               <TableCell >Roles</TableCell>
-              <TableCell >Year of Study</TableCell>
+              <TableCell >Year of Study/Work</TableCell>
               <TableCell >Active</TableCell>
             </TableRow>
           </TableHead>
