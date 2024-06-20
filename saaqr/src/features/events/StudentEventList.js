@@ -55,6 +55,10 @@ const StudentList = () => {
     return users.entities[id]?.username || 'Unknown';
   };
 
+  const getMatricById = (id) => {
+    return users.entities[id]?.card_number || 'Unknown';
+  };
+
   return (
     <div style={styles.container}>
       <h2 style={styles.heading}>Students Joined Event</h2>
@@ -64,7 +68,7 @@ const StudentList = () => {
             <div style={styles.studentAvatar}></div>
             <div style={styles.studentDetails}>
               <span style={styles.studentName}>{getUsernameById(studentId)}</span>
-              <span style={styles.studentId}>ID: {studentId}</span>
+              <span style={styles.studentId}>Matric ID: {getMatricById(studentId)}</span>
             </div>
           </li>
         ))}
