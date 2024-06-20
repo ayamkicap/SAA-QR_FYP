@@ -78,18 +78,21 @@ const EventFeedback = () => {
 
 const styles = {
     container: {
-        padding: '20px',
+        padding: '30px',
         fontFamily: 'Arial, sans-serif',
-        maxWidth: '900px',
+        maxWidth: '800px',
         margin: '0 auto',
-        backgroundColor: '#f9f9f9',
-        borderRadius: '8px',
-        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+        backgroundColor: '#ffffff',
+        borderRadius: '12px',
+        boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
+        color: '#333',
     },
     heading: {
         textAlign: 'center',
         color: '#333',
         marginBottom: '20px',
+        fontSize: '28px',
+        fontWeight: 'bold',
     },
     loading: {
         display: 'flex',
@@ -97,14 +100,17 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh',
+        color: '#555',
     },
     error: {
         textAlign: 'center',
         color: 'red',
+        marginTop: '20px',
     },
     noEvent: {
         textAlign: 'center',
-        color: '#333',
+        color: '#777',
+        marginTop: '20px',
     },
     table: {
         width: '100%',
@@ -114,21 +120,23 @@ const styles = {
     tableHeader: {
         borderBottom: '2px solid #ccc',
         textAlign: 'left',
-        padding: '10px',
-        backgroundColor: '#f1f1f1',
+        padding: '15px',
+        backgroundColor: '#f7f7f7',
         fontWeight: 'bold',
+        color: '#333',
     },
     tableRow: {
-        backgroundColor: '#fff',
-        borderBottom: '1px solid #ccc',
+        backgroundColor: '#ffffff',
+        borderBottom: '1px solid #eee',
     },
     tableRowAlt: {
         backgroundColor: '#f9f9f9',
-        borderBottom: '1px solid #ccc',
+        borderBottom: '1px solid #eee',
     },
     tableCell: {
-        padding: '10px',
+        padding: '15px',
         textAlign: 'left',
+        color: '#555',
     },
 };
 
