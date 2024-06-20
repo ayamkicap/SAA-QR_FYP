@@ -131,7 +131,7 @@ export default function UserScreen() {
       <View key={loggedInUser._id} style={styles.userContainer}>
         <Text style={styles.title}>User: {loggedInUser.username}</Text>
         {events && events
-          .filter(event => event.user_join && event.user_join.includes(loggedInUser._id))
+          .filter(event => event.attendance && event.attendance.includes(loggedInUser._id))
           .map(event => (
             <View key={event._id} style={styles.eventContainer}>
               <Text style={styles.titleText}>Title: {event.title}</Text>
