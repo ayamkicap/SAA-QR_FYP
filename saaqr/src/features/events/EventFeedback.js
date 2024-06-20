@@ -56,43 +56,37 @@ const EventFeedback = () => {
     return (
         <div style={styles.container}>
             <h2 style={styles.heading}>Students Feedback Event</h2>
-            <table style={styles.table}>
-                <thead>
-                    <tr>
-                        <th style={styles.tableHeader}>#</th>
-                        <th style={styles.tableHeader}>Feedback</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {event.feedback.flat().map((feedbackItem, index) => (
-                        <tr key={feedbackItem._id} style={index % 2 === 0 ? styles.tableRow : styles.tableRowAlt}>
-                            <td style={styles.tableCell}>{index + 1}</td>
-                            <td style={styles.tableCell}>{feedbackItem.text}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            <ul style={styles.studentList}>
+                {event.feedback.flat().map((feedbackItem) => (
+                    <li key={feedbackItem._id} style={styles.studentItem}>
+                        <div style={styles.studentAvatar}></div>
+                        <div style={styles.studentDetails}>
+                            <span style={styles.studentName}>
+                                {feedbackItem.text}
+                            </span>
+                        </div>
+                    </li>
+                ))}
+            </ul>
         </div>
     );
 };
 
+
 const styles = {
     container: {
-        padding: '30px',
+        padding: '20px',
         fontFamily: 'Arial, sans-serif',
-        maxWidth: '800px',
+        maxWidth: '600px',
         margin: '0 auto',
-        backgroundColor: '#ffffff',
-        borderRadius: '12px',
-        boxShadow: '0 0 20px rgba(0, 0, 0, 0.1)',
-        color: '#333',
+        backgroundColor: '#f9f9f9',
+        borderRadius: '8px',
+        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
     },
     heading: {
         textAlign: 'center',
         color: '#333',
         marginBottom: '20px',
-        fontSize: '28px',
-        fontWeight: 'bold',
     },
     loading: {
         display: 'flex',
@@ -100,43 +94,44 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'center',
         height: '100vh',
-        color: '#555',
     },
     error: {
         textAlign: 'center',
         color: 'red',
-        marginTop: '20px',
     },
     noEvent: {
         textAlign: 'center',
-        color: '#777',
-        marginTop: '20px',
+        color: '#333',
     },
-    table: {
-        width: '100%',
-        borderCollapse: 'collapse',
-        marginTop: '20px',
+    studentList: {
+        listStyleType: 'none',
+        padding: 0,
     },
-    tableHeader: {
-        borderBottom: '2px solid #ccc',
-        textAlign: 'left',
-        padding: '15px',
-        backgroundColor: '#f7f7f7',
+    studentItem: {
+        display: 'flex',
+        alignItems: 'center',
+        padding: '10px 0',
+        borderBottom: '1px solid #ccc',
+    },
+    studentAvatar: {
+        width: '50px',
+        height: '50px',
+        borderRadius: '50%',
+        backgroundColor: '#ddd',
+        marginRight: '15px',
+    },
+    studentDetails: {
+        display: 'flex',
+        flexDirection: 'column',
+    },
+    studentName: {
+        fontSize: '16px',
         fontWeight: 'bold',
         color: '#333',
     },
-    tableRow: {
-        backgroundColor: '#ffffff',
-        borderBottom: '1px solid #eee',
-    },
-    tableRowAlt: {
-        backgroundColor: '#f9f9f9',
-        borderBottom: '1px solid #eee',
-    },
-    tableCell: {
-        padding: '15px',
-        textAlign: 'left',
-        color: '#555',
+    studentId: {
+        fontSize: '14px',
+        color: '#666',
     },
 };
 
