@@ -48,6 +48,10 @@ const LogController = () => {
                 <Typography variant="h6">Message:</Typography>
                 <Typography variant="body1">{log.message}</Typography>
               </Grid>
+              <Grid item xs={12} sm={6}>
+                <Typography variant="h6">Log File:</Typography>
+                <Typography variant="body1">{log.logFileName}</Typography>
+              </Grid>
               {/* Add more fields as needed */}
             </Grid>
           </LogEntry>
