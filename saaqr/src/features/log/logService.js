@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { API_URL } from '../../config/APIconfig';
 
-const baseURL = `${API_URL}3500`; // Update the base URL according to your API endpoint
+const baseURL = `${API_URL}`; // Update the base URL according to your API endpoint
+
 
 const logService = axios.create({
   baseURL,
