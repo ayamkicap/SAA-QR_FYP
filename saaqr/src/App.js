@@ -20,6 +20,7 @@ import LogController from './features/log/LogController';
 import StudentEventList from './features/events/StudentEventList';
 import StudentJoinLIst from './features/events/StudentJoinLIst';
 import EventFeedback from './features/events/EventFeedback';
+import Dashboard from './features/auth/Dashboard';
 
 function App() {
   return (
@@ -35,6 +36,11 @@ function App() {
             <Route element={<Prefetch />}>
               <Route path="dash" element={<DashLayout />}>
                 <Route index element={<Welcome />} />
+
+                <Route path='dashboard'>
+                  <Route index element={<Dashboard />} />
+                </Route>
+                
 
                 <Route path="users">
                   <Route index element={<UsersList />} />

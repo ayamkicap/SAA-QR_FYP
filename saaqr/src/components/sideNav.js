@@ -9,7 +9,10 @@ const SideNav = () => {
       <div className="sidenav-header">
         <h1>SAA-QR</h1>
       </div>
-      <Link to="/dash" className="sidenav-item">
+      {/* <Link to="/dash" className="sidenav-item">
+        <i className="fas fa-tachometer-alt"></i> Dashboard
+      </Link> */}
+      <Link to="/dash/dashboard" className="sidenav-item">
         <i className="fas fa-tachometer-alt"></i> Dashboard
       </Link>
 

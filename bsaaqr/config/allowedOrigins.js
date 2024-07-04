@@ -1,5 +1,5 @@
 const allowedOrigins = [
-    'http://localhost:3001',
+    'http://localhost:3000',
     'https://www.dandrepairshop.com',
     'https://dandrepairshop.com',
     'https://saa-qr.vercel.app'

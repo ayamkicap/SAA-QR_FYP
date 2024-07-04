@@ -729,3 +729,21 @@ tr {
   animation: spin 1s linear infinite;
 }
 
+/* dashboard */
+
+.dashboard-section {
+  padding: 20px;
+}
+
+.chart-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+
+.chart {
+  width: 45%;
+  margin: 20px 0;
+}
+
+
